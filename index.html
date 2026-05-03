@@ -1,1 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cosmic Market</title>
 
+<style>
+body {
+  margin:0;
+  background:black;
+  color:#e6ffff;
+  font-family:'Segoe UI',sans-serif;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* STAR BACKGROUND */
+canvas {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* MAIN */
+.main {
+  max-width:750px;
+  margin:80px auto;
+}
+
+/* CARD UI */
+.card {
+  background:rgba(255,255,255,0.07);
+  backdrop-filter:blur(10px);
+  border-radius:18px;
+  padding:25px;
+  margin:20px;
+  box-shadow:0 0 20px rgba(0,255,255,0.15);
+  transition:0.3s;
+}
+
+/* ✨ GLOW */
+.glow-mythical {
+  box-shadow:0 0 25px yellow, 0 0 50px yellow;
+}
+.glow-celestial {
+  box-shadow:0 0 25px #bb66ff, 0 0 60px #bb66ff;
+}
+
+/* BUTTONS */
+button {
+  padding:10px 16px;
+  margin:6px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(45deg,#00ffd5,#00aaff);
+  cursor:pointer;
+  font-weight:bold;
+}
+button:hover { transform:scale(1.05); }
+
+/* SIDEBAR */
+.sidebar {
+  position:fixed;
+  top:0;
+  left:0;
+  width:260px;
+  height:100%;
+  background:rgba(0,0,0,0.95);
+  transform:translateX(-100%);
+  transition:0.3s;
+  padding:20px;
+}
+.sidebar.open { transform:translateX(0); }
+
+.open-menu-btn {
+  position:fixed;
+  top:12px;
+  left:12px;
+}
+
+/* MENUS */
+.menu-page { display:none; }
+.menu-page.active { display:block; }
+
+/* GRID */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:10px;
+}
+
+/* ITEMS */
+.item {
+  padding:10px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  font-size:14px;
+}
+
+/* RARITY COLORS */
+.Common{color:white;}
+.Uncommon{color:#00ff99;}
+.Rare{color:#00ccff;}
+.Legendary{color:gold;}
+.Mythical{color:yellow;}
+.Celestial{color:#bb66ff;}
+
+/* BARS */
+.bar-bg { background:#222; border-radius:10px; }
+.bar { height:18px; width:0%; background:#00ffd5; }
+
+/* TEXT EFFECT */
+#dropText {
+  position:fixed;
+  top:40%;
+  width:100%;
+  font-size:42px;
+  font-weight:bold;
+  opacity:0;
+}
+.showText { opacity:1; }
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div id="dropText"></div>
+
+<button id="menuBtn" class="open-menu-btn" onclick="toggleSidebar()">☰</button>
+
+<div id="sidebar" class="sidebar">
+<button onclick="toggleSidebar()">✖ Close</button>
+
+<div id="mainMenu" class="menu-page active">
+  <button onclick="openMenu('shopMenu')">🛒 Shop</button>
+  <button onclick="openMenu('collectionMenu')">📖 Collection</button>
+  <button onclick="openMenu('settingsMenu')">⚙️ Settings</button>
+</div>
+
+<div id="shopMenu" class="menu-page">
+  <button onclick="openMenu('mainMenu')">⬅ Back</button>
+  <button onclick="buyIncome()">💸 Income ($<span id="incomeCost"></span>)</button>
+  <button onclick="buyLuck()">🍀 Luck ($<span id="luckCost"></span>)</button>
+</div>
+
+<div id="collectionMenu" class="menu-page">
+  <button onclick="openMenu('mainMenu')">⬅ Back</button>
+
+  <div class="bar-bg">
+    <div id="collectionBar" class="bar"></div>
+  </div>
+  <p id="collectionText"></p>
+
+  <div id="collectionList"></div>
+</div>
+
+<div id="settingsMenu" class="menu-page">
+  <button onclick="openMenu('mainMenu')">⬅ Back</button>
+  <button onclick="resetGame()">🧹 Reset Game</button>
+</div>
+
+</div>
+
+<div class="main">
+<h1>Quantum Market</h1>
+
+<p>💰 $<span id="balance"></span></p>
+<p>⚡ $<span id="income"></span>/sec</p>
+<p>🍀 Luck: <span id="luck"></span></p>
+
+<div class="card" id="itemCard">
+  <div id="icon" style="font-size:50px;">❓</div>
+  <h2 id="name">Unknown</h2>
+  <p id="rarity">---</p>
+  <p>$<span id="price">0</span></p>
+
+  <button id="genBtn" onclick="generate()">Generate</button>
+  <button onclick="buy()">Buy</button>
+</div>
+
+<h2>Inventory</h2>
+<div id="inventoryGrid" class="grid"></div>
+</div>
+
+<script>
+// SIDEBAR
+function toggleSidebar(){
+  let s=document.getElementById("sidebar");
+  let btn=document.getElementById("menuBtn");
+  let open=s.classList.toggle("open");
+  btn.style.display=open?"none":"block";
+}
+function openMenu(m){
+  document.querySelectorAll(".menu-page").forEach(x=>x.classList.remove("active"));
+  document.getElementById(m).classList.add("active");
+}
+
+// DATA
+let balance=1000, income=15, luck=0;
+let incomeCost=200, luckCost=300;
+let inventory=[], discovered=[];
+
+// ITEMS (FULL LIST)
+// ITEMS (FULL LIST)
+const items=[
+{name:"Neon Crystal",icon:"💎",rarity:"Common",price:250},
+{name:"Quantum Chip",icon:"💾",rarity:"Common",price:250},
+{name:"Dark Matter Orb",icon:"⚫",rarity:"Common",price:250},
+{name:"Circuit Fragment",icon:"🔌",rarity:"Common",price:250},
+{name:"Energy Cell",icon:"🔋",rarity:"Common",price:250},
+
+{name:"Time Fragment",icon:"⌛",rarity:"Uncommon",price:500},
+{name:"Cosmic Key",icon:"🗝️",rarity:"Uncommon",price:500},
+{name:"Signal Beacon",icon:"📡",rarity:"Uncommon",price:500},
+{name:"Star Dust",icon:"✨",rarity:"Uncommon",price:500},
+
+{name:"Plasma Core",icon:"🔮",rarity:"Rare",price:1000},
+{name:"Stellar Map",icon:"🗺️",rarity:"Rare",price:1000},
+{name:"Astro Compass",icon:"🧭",rarity:"Rare",price:1000},
+{name:"Satellite Core",icon:"🛰️",rarity:"Rare",price:1000},
+
+{name:"Void Engine",icon:"⚙️",rarity:"Legendary",price:5000},
+{name:"Gravity Shard",icon:"🧊",rarity:"Legendary",price:5000},
+{name:"Time Stabilizer",icon:"⏱️",rarity:"Legendary",price:5000},
+{name:"Stellar Crown",icon:"👑",rarity:"Legendary",price:5000},
+
+{name:"Solar Relic",icon:"📿",rarity:"Mythical",price:10000},
+{name:"AI Core",icon:"🤖",rarity:"Mythical",price:10000},
+{name:"Eternal Reactor",icon:"♾️",rarity:"Mythical",price:10000},
+{name:"Singularity Core",icon:"🌀",rarity:"Mythical",price:10000},
+
+{name:"Wormhole Lens",icon:"🔍",rarity:"Celestial",price:20000},
+{name:"Universe Seed",icon:"🌱",rarity:"Celestial",price:20000},
+{name:"God Particle",icon:"⚛️✨",rarity:"Celestial",price:20000}
+];
+
+// RARITY
+function getRarity(){
+  let r=Math.random()*100 - luck;
+  if(r<1) return "Celestial";
+  if(r<5) return "Mythical";
+  if(r<12) return "Legendary";
+  if(r<25) return "Rare";
+  if(r<50) return "Uncommon";
+  return "Common";
+}
+
+let currentItem;
+
+// GENERATE (FIXED)
+let canGen=true;
+function generate(){
+  if(!canGen) return;
+
+  canGen=false;
+  document.getElementById("genBtn").disabled=true;
+
+  setTimeout(()=>{
+    canGen=true;
+    document.getElementById("genBtn").disabled=false;
+  },1000);
+
+  let rarity=getRarity();
+  let pool=items.filter(i=>i.rarity===rarity);
+
+  if(pool.length===0){
+    currentItem=items[Math.floor(Math.random()*items.length)];
+  } else {
+    currentItem=pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  document.getElementById("icon").innerText=currentItem.icon;
+  document.getElementById("name").innerText=currentItem.name;
+  document.getElementById("rarity").innerText=currentItem.rarity;
+  document.getElementById("rarity").className=currentItem.rarity;
+  document.getElementById("price").innerText=currentItem.price;
+
+  rareEffect(currentItem.rarity);
+}
+
+// ✨ EFFECT (GLOW ONLY)
+function rareEffect(r){
+  if(r==="Mythical"||r==="Celestial"){
+    let t=document.getElementById("dropText");
+    let card=document.getElementById("itemCard");
+
+    t.innerText=r==="Celestial"?"🌌 CELESTIAL!!!":"🔥 MYTHICAL!";
+    t.classList.add("showText");
+
+    if(r==="Celestial"){
+      card.classList.add("glow-celestial");
+    } else {
+      card.classList.add("glow-mythical");
+    }
+
+    setTimeout(()=>{
+      t.classList.remove("showText");
+      card.classList.remove("glow-mythical","glow-celestial");
+    },1000);
+  }
+}
+
+// BUY
+function buy(){
+  if(!currentItem) return;
+  if(balance>=currentItem.price){
+    balance-=currentItem.price;
+    inventory.push(currentItem);
+    if(!discovered.includes(currentItem.name)) discovered.push(currentItem.name);
+    updateUI();
+  }
+}
+
+// SHOP
+function buyIncome(){
+  if(balance>=incomeCost){
+    balance-=incomeCost;
+    income+=5;
+    incomeCost=Math.floor(incomeCost*1.5);
+  }
+}
+function buyLuck(){
+  if(balance>=luckCost){
+    balance-=luckCost;
+    luck+=1;
+    luckCost=Math.floor(luckCost*1.6);
+  }
+}
+
+// LOOP
+setInterval(()=>{
+  balance+=income;
+  updateUI();
+},1000);
+
+// UI
+function updateUI(){
+  document.getElementById("balance").innerText=Math.floor(balance);
+  document.getElementById("income").innerText=income;
+  document.getElementById("luck").innerText=luck;
+
+  document.getElementById("incomeCost").innerText=incomeCost;
+  document.getElementById("luckCost").innerText=luckCost;
+
+  let grid=document.getElementById("inventoryGrid");
+  grid.innerHTML="";
+  inventory.forEach(i=>{
+    let d=document.createElement("div");
+    d.className="item "+i.rarity;
+    d.innerHTML=i.icon+"<br>"+i.name;
+    grid.appendChild(d);
+  });
+
+  let list=document.getElementById("collectionList");
+  list.innerHTML="";
+  items.forEach(i=>{
+    let d=document.createElement("div");
+    d.innerText=i.icon+" "+i.name+" ("+i.rarity+")";
+    d.style.opacity=discovered.includes(i.name)?1:0.3;
+    list.appendChild(d);
+  });
+
+  let percent=(discovered.length/items.length)*100;
+  document.getElementById("collectionBar").style.width=percent+"%";
+  document.getElementById("collectionText").innerText=
+    discovered.length+" / "+items.length+" discovered";
+}
+
+// STARS
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let stars=[];
+for(let i=0;i<100;i++){
+  stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(s=>{
+    ctx.fillStyle="#00ffd5";
+    ctx.fillRect(s.x,s.y,2,2);
+    s.y+=0.3;
+    if(s.y>canvas.height)s.y=0;
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+updateUI();
+</script>
+
+</body>
+</html>
