@@ -13,7 +13,6 @@ body {
   overflow:hidden;
 }
 
-/* STAR BACKGROUND */
 canvas {
   position:fixed;
   top:0;
@@ -21,13 +20,11 @@ canvas {
   z-index:-1;
 }
 
-/* MAIN */
 .main {
   max-width:750px;
   margin:80px auto;
 }
 
-/* CARD UI */
 .card {
   background:rgba(255,255,255,0.07);
   backdrop-filter:blur(10px);
@@ -38,7 +35,6 @@ canvas {
   transition:0.3s;
 }
 
-/* ✨ GLOW */
 .glow-mythical {
   box-shadow:0 0 25px yellow, 0 0 50px yellow;
 }
@@ -46,7 +42,6 @@ canvas {
   box-shadow:0 0 25px #bb66ff, 0 0 60px #bb66ff;
 }
 
-/* BUTTONS */
 button {
   padding:10px 16px;
   margin:6px;
@@ -58,7 +53,6 @@ button {
 }
 button:hover { transform:scale(1.05); }
 
-/* SIDEBAR */
 .sidebar {
   position:fixed;
   top:0;
@@ -78,18 +72,15 @@ button:hover { transform:scale(1.05); }
   left:12px;
 }
 
-/* MENUS */
 .menu-page { display:none; }
 .menu-page.active { display:block; }
 
-/* GRID */
 .grid {
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
   gap:10px;
 }
 
-/* ITEMS */
 .item {
   padding:10px;
   border-radius:12px;
@@ -97,7 +88,6 @@ button:hover { transform:scale(1.05); }
   font-size:14px;
 }
 
-/* RARITY COLORS */
 .Common{color:white;}
 .Uncommon{color:#00ff99;}
 .Rare{color:#00ccff;}
@@ -105,11 +95,9 @@ button:hover { transform:scale(1.05); }
 .Mythical{color:yellow;}
 .Celestial{color:#bb66ff;}
 
-/* BARS */
 .bar-bg { background:#222; border-radius:10px; }
 .bar { height:18px; width:0%; background:#00ffd5; }
 
-/* TEXT EFFECT */
 #dropText {
   position:fixed;
   top:40%;
@@ -125,7 +113,6 @@ button:hover { transform:scale(1.05); }
 <body>
 
 <canvas id="stars"></canvas>
-
 <div id="dropText"></div>
 
 <button id="menuBtn" class="open-menu-btn" onclick="toggleSidebar()">☰</button>
@@ -160,7 +147,6 @@ button:hover { transform:scale(1.05); }
   <button onclick="openMenu('mainMenu')">⬅ Back</button>
   <button onclick="resetGame()">🧹 Reset Game</button>
 </div>
-
 </div>
 
 <div class="main">
@@ -185,7 +171,6 @@ button:hover { transform:scale(1.05); }
 </div>
 
 <script>
-// SIDEBAR
 function toggleSidebar(){
   let s=document.getElementById("sidebar");
   let btn=document.getElementById("menuBtn");
@@ -197,13 +182,10 @@ function openMenu(m){
   document.getElementById(m).classList.add("active");
 }
 
-// DATA
 let balance=1000, income=15, luck=0;
 let incomeCost=200, luckCost=300;
 let inventory=[], discovered=[];
 
-// ITEMS (FULL LIST)
-// ITEMS (FULL LIST)
 const items=[
 {name:"Neon Crystal",icon:"💎",rarity:"Common",price:250},
 {name:"Quantum Chip",icon:"💾",rarity:"Common",price:250},
@@ -236,7 +218,6 @@ const items=[
 {name:"God Particle",icon:"⚛️✨",rarity:"Celestial",price:20000}
 ];
 
-// RARITY
 function getRarity(){
   let r=Math.random()*100 - luck;
   if(r<1) return "Celestial";
@@ -249,11 +230,9 @@ function getRarity(){
 
 let currentItem;
 
-// GENERATE (FIXED)
 let canGen=true;
 function generate(){
   if(!canGen) return;
-
   canGen=false;
   document.getElementById("genBtn").disabled=true;
 
@@ -265,11 +244,8 @@ function generate(){
   let rarity=getRarity();
   let pool=items.filter(i=>i.rarity===rarity);
 
-  if(pool.length===0){
-    currentItem=items[Math.floor(Math.random()*items.length)];
-  } else {
-    currentItem=pool[Math.floor(Math.random()*pool.length)];
-  }
+  currentItem=pool.length?pool[Math.floor(Math.random()*pool.length)]
+                         :items[Math.floor(Math.random()*items.length)];
 
   document.getElementById("icon").innerText=currentItem.icon;
   document.getElementById("name").innerText=currentItem.name;
@@ -280,7 +256,6 @@ function generate(){
   rareEffect(currentItem.rarity);
 }
 
-// ✨ EFFECT (GLOW ONLY)
 function rareEffect(r){
   if(r==="Mythical"||r==="Celestial"){
     let t=document.getElementById("dropText");
@@ -289,11 +264,7 @@ function rareEffect(r){
     t.innerText=r==="Celestial"?"🌌 CELESTIAL!!!":"🔥 MYTHICAL!";
     t.classList.add("showText");
 
-    if(r==="Celestial"){
-      card.classList.add("glow-celestial");
-    } else {
-      card.classList.add("glow-mythical");
-    }
+    card.classList.add(r==="Celestial"?"glow-celestial":"glow-mythical");
 
     setTimeout(()=>{
       t.classList.remove("showText");
@@ -302,7 +273,6 @@ function rareEffect(r){
   }
 }
 
-// BUY
 function buy(){
   if(!currentItem) return;
   if(balance>=currentItem.price){
@@ -313,7 +283,16 @@ function buy(){
   }
 }
 
-// SHOP
+/* ✅ SELL FEATURE */
+function sellItem(index){
+  let item = inventory[index];
+  if(!item) return;
+
+  balance += Math.floor(item.price * 0.5);
+  inventory.splice(index,1);
+  updateUI();
+}
+
 function buyIncome(){
   if(balance>=incomeCost){
     balance-=incomeCost;
@@ -329,13 +308,11 @@ function buyLuck(){
   }
 }
 
-// LOOP
 setInterval(()=>{
   balance+=income;
   updateUI();
 },1000);
 
-// UI
 function updateUI(){
   document.getElementById("balance").innerText=Math.floor(balance);
   document.getElementById("income").innerText=income;
@@ -346,10 +323,10 @@ function updateUI(){
 
   let grid=document.getElementById("inventoryGrid");
   grid.innerHTML="";
-  inventory.forEach(i=>{
+  inventory.forEach((i,index)=>{
     let d=document.createElement("div");
     d.className="item "+i.rarity;
-    d.innerHTML=i.icon+"<br>"+i.name;
+    d.innerHTML=i.icon+"<br>"+i.name+"<br><button onclick='sellItem("+index+")'>Sell</button>";
     grid.appendChild(d);
   });
 
@@ -368,7 +345,6 @@ function updateUI(){
     discovered.length+" / "+items.length+" discovered";
 }
 
-// STARS
 const canvas=document.getElementById("stars");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
