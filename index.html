@@ -2,7 +2,6 @@
 <html>
 <head>
 <title>Cosmic Market</title>
-
 <style>
 body {
   margin:0;
@@ -12,18 +11,9 @@ body {
   text-align:center;
   overflow:hidden;
 }
+canvas { position:fixed; top:0; left:0; z-index:-1; }
 
-canvas {
-  position:fixed;
-  top:0;
-  left:0;
-  z-index:-1;
-}
-
-.main {
-  max-width:750px;
-  margin:80px auto;
-}
+.main { max-width:750px; margin:60px auto; overflow-y:auto; max-height:100vh; padding-bottom:40px; box-sizing:border-box; }
 
 .card {
   background:rgba(255,255,255,0.07);
@@ -34,52 +24,32 @@ canvas {
   box-shadow:0 0 20px rgba(0,255,255,0.15);
   transition:0.3s;
 }
-
 .glow-mythical { box-shadow:0 0 25px yellow, 0 0 50px yellow; }
 .glow-celestial { box-shadow:0 0 25px #bb66ff, 0 0 60px #bb66ff; }
 
 button {
-  padding:10px 16px;
-  margin:6px;
-  border-radius:10px;
-  border:none;
+  padding:10px 16px; margin:6px;
+  border-radius:10px; border:none;
   background:linear-gradient(45deg,#00ffd5,#00aaff);
-  cursor:pointer;
-  font-weight:bold;
+  cursor:pointer; font-weight:bold;
 }
 button:hover { transform:scale(1.05); }
 
 .sidebar {
-  position:fixed;
-  top:0; left:0;
-  width:260px;
-  height:100%;
+  position:fixed; top:0; left:0;
+  width:260px; height:100%;
   background:rgba(0,0,0,0.95);
   transform:translateX(-100%);
-  transition:0.3s;
-  padding:20px;
-  box-sizing:border-box;
-  overflow-y:auto;
+  transition:0.3s; padding:20px;
+  box-sizing:border-box; overflow-y:auto;
 }
 .sidebar.open { transform:translateX(0); }
-
-.open-menu-btn { position:fixed; top:12px; left:12px; }
-
+.open-menu-btn { position:fixed; top:12px; left:12px; z-index:50; }
 .menu-page { display:none; }
 .menu-page.active { display:block; }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
-  gap:10px;
-}
-
-.item {
-  padding:10px;
-  border-radius:12px;
-  background:rgba(255,255,255,0.05);
-  font-size:14px;
-}
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:10px; }
+.item { padding:10px; border-radius:12px; background:rgba(255,255,255,0.05); font-size:14px; }
 
 .Common    { color:white; }
 .Uncommon  { color:#00ff99; }
@@ -90,86 +60,79 @@ button:hover { transform:scale(1.05); }
 
 .bar-bg { background:#222; border-radius:10px; margin:4px 0; }
 .bar { height:18px; width:0%; background:#00ffd5; border-radius:10px; transition:width 0.4s; }
+#achBar { background:#ffd700; }
 
 #dropText {
-  position:fixed;
-  top:40%;
-  width:100%;
-  font-size:42px;
-  font-weight:bold;
-  opacity:0;
-  transition:opacity 0.3s;
-  pointer-events:none;
-  z-index:10;
+  position:fixed; top:40%; width:100%;
+  font-size:42px; font-weight:bold;
+  opacity:0; transition:opacity 0.3s;
+  pointer-events:none; z-index:10;
 }
 .showText { opacity:1 !important; }
 
-/* Toast */
+/* ── Toasts ── */
 #saveToast {
-  position:fixed;
-  bottom:30px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,255,180,0.15);
-  border:1px solid #00ffd5;
-  color:#00ffd5;
-  padding:10px 24px;
-  border-radius:12px;
-  font-weight:bold;
-  opacity:0;
-  transition:opacity 0.4s;
-  pointer-events:none;
-  z-index:100;
-  white-space:nowrap;
+  position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+  background:rgba(0,255,180,0.15); border:1px solid #00ffd5; color:#00ffd5;
+  padding:10px 24px; border-radius:12px; font-weight:bold;
+  opacity:0; transition:opacity 0.4s; pointer-events:none; z-index:100; white-space:nowrap;
 }
 #saveToast.show { opacity:1; }
 
-/* Achievement unlock pop-up */
 #achToast {
-  position:fixed;
-  top:80px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(255,200,0,0.13);
-  border:2px solid gold;
-  color:gold;
-  padding:14px 28px;
-  border-radius:16px;
-  font-weight:bold;
-  font-size:15px;
-  opacity:0;
-  transition:opacity 0.5s;
-  pointer-events:none;
-  z-index:200;
-  white-space:nowrap;
+  position:fixed; bottom:75px; left:50%; transform:translateX(-50%);
+  background:rgba(255,200,0,0.13); border:2px solid gold; color:gold;
+  padding:14px 28px; border-radius:16px; font-weight:bold; font-size:15px;
+  opacity:0; transition:opacity 0.5s; pointer-events:none; z-index:200; white-space:nowrap;
 }
 #achToast.show { opacity:1; }
 
-/* Achievement cards */
+/* ── Achievement cards ── */
 .ach-card {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background:rgba(255,255,255,0.05);
-  border-radius:12px;
-  padding:10px 12px;
-  margin:6px 0;
-  text-align:left;
-  border:1px solid transparent;
-  transition:0.3s;
+  display:flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,0.05); border-radius:12px;
+  padding:10px 12px; margin:6px 0; text-align:left;
+  border:1px solid transparent; transition:0.3s;
 }
-.ach-card.unlocked {
-  border-color:gold;
-  background:rgba(255,200,0,0.08);
-}
+.ach-card.unlocked { border-color:gold; background:rgba(255,200,0,0.08); }
 .ach-card.locked { opacity:0.35; }
 .ach-icon { font-size:24px; flex-shrink:0; }
 .ach-info { font-size:12px; line-height:1.5; }
 .ach-info strong { font-size:13px; display:block; }
-#achBar { background:#ffd700; }
+
+/* ── Event Banner ── */
+#eventBanner {
+  display:none;
+  margin:0 20px 10px;
+  padding:14px 20px;
+  border-radius:16px;
+  border:2px solid #fff;
+  background:rgba(255,255,255,0.07);
+  backdrop-filter:blur(10px);
+  animation: eventPulse 2s infinite;
+  position:relative;
+}
+#eventBanner.show { display:block; }
+
+@keyframes eventPulse {
+  0%,100% { box-shadow: 0 0 10px var(--event-color,#fff), 0 0 20px var(--event-color,#fff); }
+  50%      { box-shadow: 0 0 25px var(--event-color,#fff), 0 0 50px var(--event-color,#fff); }
+}
+
+#eventTitle   { font-size:20px; font-weight:bold; margin:0 0 4px; }
+#eventDesc    { font-size:13px; margin:0 0 10px; opacity:0.85; }
+#eventTimerBg { background:rgba(0,0,0,0.3); border-radius:10px; height:10px; }
+#eventTimerBar{ height:10px; border-radius:10px; background:var(--event-color,#fff); transition:width 1s linear; }
+#eventCountdown{ font-size:12px; margin-top:4px; opacity:0.7; }
+
+/* Mystery Crate buy button inside banner */
+#mysteryCrateArea { margin-top:10px; }
+#mysteryCrateBtn  {
+  background:linear-gradient(45deg,#ff66cc,#aa44ff);
+  color:white; font-size:13px;
+}
 </style>
 </head>
-
 <body>
 
 <canvas id="stars"></canvas>
@@ -182,26 +145,23 @@ button:hover { transform:scale(1.05); }
 <div id="sidebar" class="sidebar">
   <button onclick="toggleSidebar()">&#10006; Close</button>
 
-  <!-- Main Menu -->
   <div id="mainMenu" class="menu-page active">
     <br>
     <button onclick="openMenu('shopMenu')">&#128722; Shop</button><br>
     <button onclick="openMenu('collectionMenu')">&#128218; Collection</button><br>
     <button onclick="openMenu('achievementsMenu')">&#127942; Achievements</button><br>
     <button onclick="openMenu('settingsMenu')">&#9881;&#65039; Settings</button><br>
-    <hr style="border-color:#333; margin:14px 0;">
+    <hr style="border-color:#333;margin:14px 0;">
     <button onclick="saveGame()">&#128190; Save Game</button><br>
     <button onclick="loadGame()">&#128194; Load Game</button>
   </div>
 
-  <!-- Shop -->
   <div id="shopMenu" class="menu-page">
     <button onclick="openMenu('mainMenu')">&larr; Back</button>
     <button onclick="buyIncome()">&#128184; Income ($<span id="incomeCost"></span>)</button>
     <button onclick="buyLuck()">&#127808; Luck ($<span id="luckCost"></span>)</button>
   </div>
 
-  <!-- Collection -->
   <div id="collectionMenu" class="menu-page">
     <button onclick="openMenu('mainMenu')">&larr; Back</button>
     <div class="bar-bg"><div id="collectionBar" class="bar"></div></div>
@@ -209,7 +169,6 @@ button:hover { transform:scale(1.05); }
     <div id="collectionList"></div>
   </div>
 
-  <!-- Achievements -->
   <div id="achievementsMenu" class="menu-page">
     <button onclick="openMenu('mainMenu')">&larr; Back</button>
     <h3 style="margin:10px 0;">&#127942; Achievements</h3>
@@ -218,19 +177,29 @@ button:hover { transform:scale(1.05); }
     <div id="achList"></div>
   </div>
 
-  <!-- Settings -->
   <div id="settingsMenu" class="menu-page">
     <button onclick="openMenu('mainMenu')">&larr; Back</button><br>
     <button onclick="resetGame()">&#129529; Reset Game</button>
   </div>
 </div>
 
-<!-- Main page -->
 <div class="main">
   <h1>Cosmic Market</h1>
   <p>&#128176; $<span id="balance"></span></p>
   <p>&#9889; $<span id="income"></span>/sec</p>
   <p>&#127808; Luck: <span id="luck"></span></p>
+
+  <!-- Event Banner -->
+  <div id="eventBanner">
+    <div id="eventTitle"></div>
+    <div id="eventDesc"></div>
+    <div id="eventTimerBg"><div id="eventTimerBar" style="width:100%"></div></div>
+    <div id="eventCountdown"></div>
+    <div id="mysteryCrateArea" style="display:none;">
+      <p id="mysteryCrateInfo" style="font-size:13px;margin:6px 0;"></p>
+      <button id="mysteryCrateBtn" onclick="buyMysteryCrate()">Buy Mystery Item</button>
+    </div>
+  </div>
 
   <div class="card" id="itemCard">
     <div id="icon" style="font-size:50px;">&#10067;</div>
@@ -250,8 +219,7 @@ button:hover { transform:scale(1.05); }
    UI HELPERS
 ══════════════════════════════════════ */
 function toggleSidebar(){
-  let s=document.getElementById("sidebar");
-  let btn=document.getElementById("menuBtn");
+  let s=document.getElementById("sidebar"), btn=document.getElementById("menuBtn");
   let open=s.classList.toggle("open");
   btn.style.display=open?"none":"block";
 }
@@ -261,8 +229,7 @@ function openMenu(m){
 }
 function showToast(msg){
   let t=document.getElementById("saveToast");
-  t.innerText=msg;
-  t.classList.add("show");
+  t.innerText=msg; t.classList.add("show");
   setTimeout(()=>t.classList.remove("show"),2200);
 }
 function showAchToast(name,icon){
@@ -278,16 +245,8 @@ function showAchToast(name,icon){
 let balance=1000, income=15, luck=0;
 let incomeCost=200, luckCost=300;
 let inventory=[], discovered=[];
-
-let stats={
-  totalSpent:0,
-  totalSoldCount:0,
-  totalGenerated:0,
-  totalBought:0,
-  boughtCelestial:false,
-  incomeUpgrades:0,
-  luckUpgrades:0
-};
+let stats={totalSpent:0,totalSoldCount:0,totalGenerated:0,
+           totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0};
 
 /* ══════════════════════════════════════
    ITEMS
@@ -320,17 +279,155 @@ const items=[
 ];
 
 /* ══════════════════════════════════════
+   LIMITED TIME EVENTS
+══════════════════════════════════════ */
+const eventTypes=[
+  {
+    id:"cosmic_storm",
+    icon:"🌩️", name:"Cosmic Storm",
+    desc:"Luck is boosted by +15 for this event!",
+    color:"#44ddff",
+    duration:60,
+    onStart:()=>{ luck+=15; updateUI(); },
+    onEnd:()=>{ luck-=15; updateUI(); }
+  },
+  {
+    id:"market_crash",
+    icon:"💸", name:"Market Crash",
+    desc:"All item prices are 50% off!",
+    color:"#ff4444",
+    duration:60
+  },
+  {
+    id:"rare_surge",
+    icon:"⭐", name:"Rare Surge",
+    desc:"Every generate is guaranteed Rare or better!",
+    color:"#00ccff",
+    duration:60
+  },
+  {
+    id:"power_surge",
+    icon:"⚡", name:"Power Surge",
+    desc:"Your income is doubled for this event!",
+    color:"#ffdd00",
+    duration:60,
+    onStart:()=>{ income*=2; updateUI(); },
+    onEnd:()=>{ income=Math.floor(income/2); updateUI(); }
+  },
+  {
+    id:"mystery_crate",
+    icon:"🎁", name:"Mystery Crate",
+    desc:"A rare exclusive item has appeared! Buy it before time runs out!",
+    color:"#cc66ff",
+    duration:60
+  }
+];
+
+// Exclusive items only available during Mystery Crate events
+const mysteryItems=[
+  {name:"Void Crystal",      icon:"🔷", rarity:"Legendary", price:3000},
+  {name:"Nebula Fragment",   icon:"🌫️",rarity:"Mythical",  price:7000},
+  {name:"Event Horizon Gem", icon:"🕳️",rarity:"Celestial", price:15000},
+  {name:"Stardust Relic",    icon:"💫", rarity:"Mythical",  price:8000},
+  {name:"Cosmic Anomaly",    icon:"🌀", rarity:"Celestial", price:18000},
+];
+
+let activeEvent=null;       // current event object
+let eventTimeLeft=0;        // seconds remaining
+let eventDuration=0;        // total duration for this event
+let nextEventIn=90;         // seconds until next event triggers (starts after 90s)
+let mysteryCrateItem=null;  // the item available during mystery crate
+let mysteryCrateBought=false;
+
+function triggerEvent(){
+  let type=eventTypes[Math.floor(Math.random()*eventTypes.length)];
+  activeEvent=type;
+  eventDuration=type.duration;
+  eventTimeLeft=type.duration;
+
+  if(type.id==="mystery_crate"){
+    mysteryCrateItem=mysteryItems[Math.floor(Math.random()*mysteryItems.length)];
+    mysteryCrateBought=false;
+  }
+
+  if(type.onStart) type.onStart();
+  showEventBanner();
+  showToast(type.icon+" "+type.name+" has started!");
+}
+
+function endEvent(){
+  if(activeEvent?.onEnd) activeEvent.onEnd();
+  activeEvent=null;
+  eventTimeLeft=0;
+  mysteryCrateItem=null;
+  mysteryCrateBought=false;
+  hideEventBanner();
+  nextEventIn=120+Math.floor(Math.random()*60); // 2-3 mins until next
+}
+
+function showEventBanner(){
+  let b=document.getElementById("eventBanner");
+  b.classList.add("show");
+  b.style.setProperty("--event-color", activeEvent.color);
+  b.style.borderColor=activeEvent.color;
+  document.getElementById("eventTitle").innerText=activeEvent.icon+" "+activeEvent.name;
+  document.getElementById("eventTitle").style.color=activeEvent.color;
+  document.getElementById("eventDesc").innerText=activeEvent.desc;
+
+  if(activeEvent.id==="mystery_crate" && mysteryCrateItem){
+    let area=document.getElementById("mysteryCrateArea");
+    area.style.display="block";
+    document.getElementById("mysteryCrateInfo").innerHTML=
+      mysteryCrateItem.icon+" <strong>"+mysteryCrateItem.name+"</strong>"
+      +" ("+mysteryCrateItem.rarity+") — $"+mysteryCrateItem.price;
+    document.getElementById("mysteryCrateBtn").disabled=false;
+    document.getElementById("mysteryCrateBtn").innerText="Buy for $"+mysteryCrateItem.price;
+  } else {
+    document.getElementById("mysteryCrateArea").style.display="none";
+  }
+}
+
+function hideEventBanner(){
+  document.getElementById("eventBanner").classList.remove("show");
+  document.getElementById("mysteryCrateArea").style.display="none";
+}
+
+function updateEventBanner(){
+  if(!activeEvent) return;
+  let pct=(eventTimeLeft/eventDuration)*100;
+  document.getElementById("eventTimerBar").style.width=pct+"%";
+  document.getElementById("eventTimerBar").style.background=activeEvent.color;
+  document.getElementById("eventCountdown").innerText="⏱️ "+eventTimeLeft+"s remaining";
+}
+
+function buyMysteryCrate(){
+  if(!mysteryCrateItem||mysteryCrateBought) return;
+  let price=mysteryCrateItem.price;
+  if(balance<price){ showToast("⚠️ Not enough money!"); return; }
+  balance-=price;
+  stats.totalSpent+=price;
+  stats.totalBought++;
+  if(mysteryCrateItem.rarity==="Celestial") stats.boughtCelestial=true;
+  inventory.push(mysteryCrateItem);
+  if(!discovered.includes(mysteryCrateItem.name)) discovered.push(mysteryCrateItem.name);
+  mysteryCrateBought=true;
+  document.getElementById("mysteryCrateBtn").disabled=true;
+  document.getElementById("mysteryCrateBtn").innerText="✅ Purchased!";
+  updateUI();
+  checkAchievements();
+  showToast("🎁 "+mysteryCrateItem.name+" added to inventory!");
+}
+
+/* ══════════════════════════════════════
    ACHIEVEMENTS
 ══════════════════════════════════════ */
 const achievements=[
-  // Money
   {id:"first_fortune",      icon:"💰",name:"First Fortune",       desc:"Reach a $10,000 balance",
    check:()=>balance>=10000},
   {id:"cosmic_billionaire", icon:"🌌",name:"Cosmic Billionaire",  desc:"Reach a $1,000,000 balance",
    check:()=>balance>=1000000},
   {id:"high_roller",        icon:"🎰",name:"High Roller",         desc:"Spend $50,000 total",
    check:()=>stats.totalSpent>=50000},
-  // Drops
   {id:"lucky_find",         icon:"🔵",name:"Lucky Find",          desc:"Get your first Rare drop",
    check:()=>discovered.some(n=>items.find(i=>i.name===n)?.rarity==="Rare")},
   {id:"legendary_pull",     icon:"🟡",name:"Legendary Pull",      desc:"Get your first Legendary drop",
@@ -341,7 +438,6 @@ const achievements=[
    check:()=>discovered.some(n=>items.find(i=>i.name===n)?.rarity==="Celestial")},
   {id:"completionist",      icon:"📖",name:"Completionist",       desc:"Discover all 24 items",
    check:()=>discovered.length>=items.length},
-  // Buying & Selling
   {id:"first_purchase",     icon:"🛍️",name:"First Purchase",     desc:"Buy your first item",
    check:()=>stats.totalBought>=1},
   {id:"hoarder",            icon:"📦",name:"Hoarder",             desc:"Have 20 items in your inventory",
@@ -350,7 +446,6 @@ const achievements=[
    check:()=>stats.totalSoldCount>=10},
   {id:"big_spender",        icon:"👑",name:"Big Spender",         desc:"Buy a Celestial item",
    check:()=>stats.boughtCelestial},
-  // Upgrades
   {id:"power_surge",        icon:"⚡",name:"Power Surge",         desc:"Buy your first Income upgrade",
    check:()=>stats.incomeUpgrades>=1},
   {id:"lucky_charm",        icon:"🍀",name:"Lucky Charm",         desc:"Buy your first Luck upgrade",
@@ -359,7 +454,6 @@ const achievements=[
    check:()=>income>=50},
   {id:"fortune_favors",     icon:"🎯",name:"Fortune Favors",      desc:"Reach Luck level 10",
    check:()=>luck>=10},
-  // Generates
   {id:"getting_started",    icon:"🚀",name:"Getting Started",     desc:"Generate 10 items",
    check:()=>stats.totalGenerated>=10},
   {id:"obsessed",           icon:"🔄",name:"Obsessed",            desc:"Generate 100 items",
@@ -367,7 +461,6 @@ const achievements=[
   {id:"dedicated_trader",   icon:"🏅",name:"Dedicated Trader",    desc:"Generate 500 items",
    check:()=>stats.totalGenerated>=500},
 ];
-
 let unlockedAchs=new Set();
 
 function checkAchievements(){
@@ -379,7 +472,6 @@ function checkAchievements(){
   });
   renderAchievements();
 }
-
 function renderAchievements(){
   let list=document.getElementById("achList");
   if(!list) return;
@@ -406,7 +498,6 @@ function saveGame(){
   localStorage.setItem("cosmicMarketSave",JSON.stringify(saveData));
   showToast("✅ Game Saved!");
 }
-
 function loadGame(){
   let raw=localStorage.getItem("cosmicMarketSave");
   if(!raw){showToast("⚠️ No save found!");return;}
@@ -419,13 +510,11 @@ function loadGame(){
   inventory  =d.inventory  ??[];
   discovered =d.discovered ??[];
   stats      =d.stats      ??{totalSpent:0,totalSoldCount:0,totalGenerated:0,
-                              totalBought:0,boughtCelestial:false,
-                              incomeUpgrades:0,luckUpgrades:0};
+                              totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0};
   unlockedAchs=new Set(d.unlockedAchs??[]);
   updateUI();
   showToast("📂 Game Loaded!");
 }
-
 function resetGame(){
   if(!confirm("Reset all progress? This cannot be undone!")) return;
   localStorage.removeItem("cosmicMarketSave");
@@ -435,6 +524,8 @@ function resetGame(){
   stats={totalSpent:0,totalSoldCount:0,totalGenerated:0,
          totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0};
   unlockedAchs=new Set();
+  activeEvent=null; eventTimeLeft=0; nextEventIn=90;
+  hideEventBanner();
   currentItem=null;
   document.getElementById("icon").innerText="❓";
   document.getElementById("name").innerText="Unknown";
@@ -448,6 +539,14 @@ function resetGame(){
    CORE GAME LOGIC
 ══════════════════════════════════════ */
 function getRarity(){
+  // During Rare Surge, force at least Rare
+  if(activeEvent?.id==="rare_surge"){
+    let r=Math.random()*100-Math.min(luck,30);
+    if(r<2)  return "Celestial";
+    if(r<8)  return "Mythical";
+    if(r<20) return "Legendary";
+    return "Rare";
+  }
   let r=Math.random()*100-Math.min(luck,30);
   if(r<1)  return "Celestial";
   if(r<5)  return "Mythical";
@@ -471,11 +570,16 @@ function generate(){
   currentItem=pool.length?pool[Math.floor(Math.random()*pool.length)]
                          :items[Math.floor(Math.random()*items.length)];
 
+  // Apply Market Crash discount for display
+  let displayPrice=activeEvent?.id==="market_crash"
+    ? Math.floor(currentItem.price*0.5) : currentItem.price;
+
   document.getElementById("icon").innerText=currentItem.icon;
   document.getElementById("name").innerText=currentItem.name;
-  document.getElementById("rarity").innerText=currentItem.rarity;
+  document.getElementById("rarity").innerText=currentItem.rarity
+    +(activeEvent?.id==="market_crash"?" 💸50% OFF":"");
   document.getElementById("rarity").className=currentItem.rarity;
-  document.getElementById("price").innerText=currentItem.price;
+  document.getElementById("price").innerText=displayPrice;
 
   stats.totalGenerated++;
   rareEffect(currentItem.rarity);
@@ -484,8 +588,7 @@ function generate(){
 
 function rareEffect(r){
   if(r==="Mythical"||r==="Celestial"){
-    let t=document.getElementById("dropText");
-    let card=document.getElementById("itemCard");
+    let t=document.getElementById("dropText"), card=document.getElementById("itemCard");
     t.innerText=r==="Celestial"?"🌌 CELESTIAL!!!":"🔥 MYTHICAL!";
     t.classList.add("showText");
     card.classList.add(r==="Celestial"?"glow-celestial":"glow-mythical");
@@ -498,9 +601,11 @@ function rareEffect(r){
 
 function buy(){
   if(!currentItem) return;
-  if(balance>=currentItem.price){
-    balance-=currentItem.price;
-    stats.totalSpent+=currentItem.price;
+  let price=activeEvent?.id==="market_crash"
+    ? Math.floor(currentItem.price*0.5) : currentItem.price;
+  if(balance>=price){
+    balance-=price;
+    stats.totalSpent+=price;
     stats.totalBought++;
     if(currentItem.rarity==="Celestial") stats.boughtCelestial=true;
     inventory.push(currentItem);
@@ -519,7 +624,6 @@ function sellItem(index){
   updateUI();
   checkAchievements();
 }
-
 function buyIncome(){
   if(balance>=incomeCost){
     balance-=incomeCost;
@@ -531,7 +635,6 @@ function buyIncome(){
     checkAchievements();
   }
 }
-
 function buyLuck(){
   if(balance>=luckCost){
     balance-=luckCost;
@@ -544,8 +647,22 @@ function buyLuck(){
   }
 }
 
+/* ══════════════════════════════════════
+   MAIN TICK (every second)
+══════════════════════════════════════ */
 setInterval(()=>{
   balance+=income;
+
+  // Event countdown
+  if(activeEvent){
+    eventTimeLeft--;
+    if(eventTimeLeft<=0) endEvent();
+    else updateEventBanner();
+  } else {
+    nextEventIn--;
+    if(nextEventIn<=0) triggerEvent();
+  }
+
   updateUI();
   checkAchievements();
 },1000);
@@ -601,7 +718,7 @@ function animate(){
     ctx.fillStyle="#00ffd5";
     ctx.fillRect(s.x,s.y,2,2);
     s.y+=0.3;
-    if(s.y>canvas.height)s.y=0;
+    if(s.y>canvas.height) s.y=0;
   });
   requestAnimationFrame(animate);
 }
