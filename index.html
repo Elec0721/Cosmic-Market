@@ -35,12 +35,8 @@ canvas {
   transition:0.3s;
 }
 
-.glow-mythical {
-  box-shadow:0 0 25px yellow, 0 0 50px yellow;
-}
-.glow-celestial {
-  box-shadow:0 0 25px #bb66ff, 0 0 60px #bb66ff;
-}
+.glow-mythical { box-shadow:0 0 25px yellow, 0 0 50px yellow; }
+.glow-celestial { box-shadow:0 0 25px #bb66ff, 0 0 60px #bb66ff; }
 
 button {
   padding:10px 16px;
@@ -55,8 +51,7 @@ button:hover { transform:scale(1.05); }
 
 .sidebar {
   position:fixed;
-  top:0;
-  left:0;
+  top:0; left:0;
   width:260px;
   height:100%;
   background:rgba(0,0,0,0.95);
@@ -68,11 +63,7 @@ button:hover { transform:scale(1.05); }
 }
 .sidebar.open { transform:translateX(0); }
 
-.open-menu-btn {
-  position:fixed;
-  top:12px;
-  left:12px;
-}
+.open-menu-btn { position:fixed; top:12px; left:12px; }
 
 .menu-page { display:none; }
 .menu-page.active { display:block; }
@@ -90,14 +81,14 @@ button:hover { transform:scale(1.05); }
   font-size:14px;
 }
 
-.Common{color:white;}
-.Uncommon{color:#00ff99;}
-.Rare{color:#00ccff;}
-.Legendary{color:gold;}
-.Mythical{color:yellow;}
-.Celestial{color:#bb66ff;}
+.Common    { color:white; }
+.Uncommon  { color:#00ff99; }
+.Rare      { color:#00ccff; }
+.Legendary { color:gold; }
+.Mythical  { color:yellow; }
+.Celestial { color:#bb66ff; }
 
-.bar-bg { background:#222; border-radius:10px; }
+.bar-bg { background:#222; border-radius:10px; margin:4px 0; }
 .bar { height:18px; width:0%; background:#00ffd5; border-radius:10px; transition:width 0.4s; }
 
 #dropText {
@@ -113,7 +104,7 @@ button:hover { transform:scale(1.05); }
 }
 .showText { opacity:1 !important; }
 
-/* Save toast notification */
+/* Toast */
 #saveToast {
   position:fixed;
   bottom:30px;
@@ -129,8 +120,53 @@ button:hover { transform:scale(1.05); }
   transition:opacity 0.4s;
   pointer-events:none;
   z-index:100;
+  white-space:nowrap;
 }
 #saveToast.show { opacity:1; }
+
+/* Achievement unlock pop-up */
+#achToast {
+  position:fixed;
+  top:80px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(255,200,0,0.13);
+  border:2px solid gold;
+  color:gold;
+  padding:14px 28px;
+  border-radius:16px;
+  font-weight:bold;
+  font-size:15px;
+  opacity:0;
+  transition:opacity 0.5s;
+  pointer-events:none;
+  z-index:200;
+  white-space:nowrap;
+}
+#achToast.show { opacity:1; }
+
+/* Achievement cards */
+.ach-card {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,0.05);
+  border-radius:12px;
+  padding:10px 12px;
+  margin:6px 0;
+  text-align:left;
+  border:1px solid transparent;
+  transition:0.3s;
+}
+.ach-card.unlocked {
+  border-color:gold;
+  background:rgba(255,200,0,0.08);
+}
+.ach-card.locked { opacity:0.35; }
+.ach-icon { font-size:24px; flex-shrink:0; }
+.ach-info { font-size:12px; line-height:1.5; }
+.ach-info strong { font-size:13px; display:block; }
+#achBar { background:#ffd700; }
 </style>
 </head>
 
@@ -138,68 +174,81 @@ button:hover { transform:scale(1.05); }
 
 <canvas id="stars"></canvas>
 <div id="dropText"></div>
-<div id="saveToast">✅ Game Saved!</div>
+<div id="saveToast"></div>
+<div id="achToast"></div>
 
-<button id="menuBtn" class="open-menu-btn" onclick="toggleSidebar()">☰</button>
+<button id="menuBtn" class="open-menu-btn" onclick="toggleSidebar()">&#9776;</button>
 
 <div id="sidebar" class="sidebar">
-<button onclick="toggleSidebar()">✖ Close</button>
+  <button onclick="toggleSidebar()">&#10006; Close</button>
 
-<div id="mainMenu" class="menu-page active">
-  <br>
-  <button onclick="openMenu('shopMenu')">🛒 Shop</button><br>
-  <button onclick="openMenu('collectionMenu')">📖 Collection</button><br>
-  <button onclick="openMenu('settingsMenu')">⚙️ Settings</button><br>
-  <hr style="border-color:#333; margin:14px 0;">
-  <button onclick="saveGame()">💾 Save Game</button><br>
-  <button onclick="loadGame()">📂 Load Game</button>
-</div>
-
-<div id="shopMenu" class="menu-page">
-  <button onclick="openMenu('mainMenu')">⬅ Back</button>
-  <button onclick="buyIncome()">💸 Income ($<span id="incomeCost"></span>)</button>
-  <button onclick="buyLuck()">🍀 Luck ($<span id="luckCost"></span>)</button>
-</div>
-
-<div id="collectionMenu" class="menu-page">
-  <button onclick="openMenu('mainMenu')">⬅ Back</button>
-
-  <div class="bar-bg">
-    <div id="collectionBar" class="bar"></div>
+  <!-- Main Menu -->
+  <div id="mainMenu" class="menu-page active">
+    <br>
+    <button onclick="openMenu('shopMenu')">&#128722; Shop</button><br>
+    <button onclick="openMenu('collectionMenu')">&#128218; Collection</button><br>
+    <button onclick="openMenu('achievementsMenu')">&#127942; Achievements</button><br>
+    <button onclick="openMenu('settingsMenu')">&#9881;&#65039; Settings</button><br>
+    <hr style="border-color:#333; margin:14px 0;">
+    <button onclick="saveGame()">&#128190; Save Game</button><br>
+    <button onclick="loadGame()">&#128194; Load Game</button>
   </div>
-  <p id="collectionText"></p>
 
-  <div id="collectionList"></div>
+  <!-- Shop -->
+  <div id="shopMenu" class="menu-page">
+    <button onclick="openMenu('mainMenu')">&larr; Back</button>
+    <button onclick="buyIncome()">&#128184; Income ($<span id="incomeCost"></span>)</button>
+    <button onclick="buyLuck()">&#127808; Luck ($<span id="luckCost"></span>)</button>
+  </div>
+
+  <!-- Collection -->
+  <div id="collectionMenu" class="menu-page">
+    <button onclick="openMenu('mainMenu')">&larr; Back</button>
+    <div class="bar-bg"><div id="collectionBar" class="bar"></div></div>
+    <p id="collectionText"></p>
+    <div id="collectionList"></div>
+  </div>
+
+  <!-- Achievements -->
+  <div id="achievementsMenu" class="menu-page">
+    <button onclick="openMenu('mainMenu')">&larr; Back</button>
+    <h3 style="margin:10px 0;">&#127942; Achievements</h3>
+    <div class="bar-bg"><div id="achBar" class="bar"></div></div>
+    <p id="achText" style="font-size:13px;margin:6px 0;"></p>
+    <div id="achList"></div>
+  </div>
+
+  <!-- Settings -->
+  <div id="settingsMenu" class="menu-page">
+    <button onclick="openMenu('mainMenu')">&larr; Back</button><br>
+    <button onclick="resetGame()">&#129529; Reset Game</button>
+  </div>
 </div>
 
-<div id="settingsMenu" class="menu-page">
-  <button onclick="openMenu('mainMenu')">⬅ Back</button><br>
-  <button onclick="resetGame()">🧹 Reset Game</button>
-</div>
-</div>
-
+<!-- Main page -->
 <div class="main">
-<h1>Cosmic Market</h1>
+  <h1>Cosmic Market</h1>
+  <p>&#128176; $<span id="balance"></span></p>
+  <p>&#9889; $<span id="income"></span>/sec</p>
+  <p>&#127808; Luck: <span id="luck"></span></p>
 
-<p>💰 $<span id="balance"></span></p>
-<p>⚡ $<span id="income"></span>/sec</p>
-<p>🍀 Luck: <span id="luck"></span></p>
+  <div class="card" id="itemCard">
+    <div id="icon" style="font-size:50px;">&#10067;</div>
+    <h2 id="name">Unknown</h2>
+    <p id="rarity">---</p>
+    <p>$<span id="price">0</span></p>
+    <button id="genBtn" onclick="generate()">Generate</button>
+    <button onclick="buy()">Buy</button>
+  </div>
 
-<div class="card" id="itemCard">
-  <div id="icon" style="font-size:50px;">❓</div>
-  <h2 id="name">Unknown</h2>
-  <p id="rarity">---</p>
-  <p>$<span id="price">0</span></p>
-
-  <button id="genBtn" onclick="generate()">Generate</button>
-  <button onclick="buy()">Buy</button>
-</div>
-
-<h2>Inventory</h2>
-<div id="inventoryGrid" class="grid"></div>
+  <h2>Inventory</h2>
+  <div id="inventoryGrid" class="grid"></div>
 </div>
 
 <script>
+/* ══════════════════════════════════════
+   UI HELPERS
+══════════════════════════════════════ */
 function toggleSidebar(){
   let s=document.getElementById("sidebar");
   let btn=document.getElementById("menuBtn");
@@ -210,90 +259,182 @@ function openMenu(m){
   document.querySelectorAll(".menu-page").forEach(x=>x.classList.remove("active"));
   document.getElementById(m).classList.add("active");
 }
+function showToast(msg){
+  let t=document.getElementById("saveToast");
+  t.innerText=msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2200);
+}
+function showAchToast(name,icon){
+  let t=document.getElementById("achToast");
+  t.innerText="🏆 Achievement Unlocked!  "+icon+" "+name;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),3000);
+}
 
+/* ══════════════════════════════════════
+   GAME STATE
+══════════════════════════════════════ */
 let balance=1000, income=15, luck=0;
 let incomeCost=200, luckCost=300;
 let inventory=[], discovered=[];
 
+let stats={
+  totalSpent:0,
+  totalSoldCount:0,
+  totalGenerated:0,
+  totalBought:0,
+  boughtCelestial:false,
+  incomeUpgrades:0,
+  luckUpgrades:0
+};
+
+/* ══════════════════════════════════════
+   ITEMS
+══════════════════════════════════════ */
 const items=[
-{name:"Neon Crystal",icon:"💎",rarity:"Common",price:250},
-{name:"Quantum Chip",icon:"💾",rarity:"Common",price:250},
-{name:"Dark Matter Orb",icon:"⚫",rarity:"Common",price:250},
-{name:"Circuit Fragment",icon:"🔌",rarity:"Common",price:250},
-{name:"Energy Cell",icon:"🔋",rarity:"Common",price:250},
-
-{name:"Time Fragment",icon:"⌛",rarity:"Uncommon",price:500},
-{name:"Cosmic Key",icon:"🗝️",rarity:"Uncommon",price:500},
-{name:"Signal Beacon",icon:"📡",rarity:"Uncommon",price:500},
-{name:"Star Dust",icon:"✨",rarity:"Uncommon",price:500},
-
-{name:"Plasma Core",icon:"🔮",rarity:"Rare",price:1000},
-{name:"Stellar Map",icon:"🗺️",rarity:"Rare",price:1000},
-{name:"Astro Compass",icon:"🧭",rarity:"Rare",price:1000},
-{name:"Satellite Core",icon:"🛰️",rarity:"Rare",price:1000},
-
-{name:"Void Engine",icon:"⚙️",rarity:"Legendary",price:5000},
-{name:"Gravity Shard",icon:"🧊",rarity:"Legendary",price:5000},
-{name:"Time Stabilizer",icon:"⏱️",rarity:"Legendary",price:5000},
-{name:"Stellar Crown",icon:"👑",rarity:"Legendary",price:5000},
-
-{name:"Solar Relic",icon:"📿",rarity:"Mythical",price:10000},
-{name:"AI Core",icon:"🤖",rarity:"Mythical",price:10000},
-{name:"Eternal Reactor",icon:"♾️",rarity:"Mythical",price:10000},
-{name:"Singularity Core",icon:"🌀",rarity:"Mythical",price:10000},
-
-{name:"Wormhole Lens",icon:"🔍",rarity:"Celestial",price:20000},
-{name:"Universe Seed",icon:"🌱",rarity:"Celestial",price:20000},
-{name:"God Particle",icon:"⚛️✨",rarity:"Celestial",price:20000}
+  {name:"Neon Crystal",    icon:"💎",  rarity:"Common",   price:250},
+  {name:"Quantum Chip",    icon:"💾",  rarity:"Common",   price:250},
+  {name:"Dark Matter Orb", icon:"⚫",  rarity:"Common",   price:250},
+  {name:"Circuit Fragment",icon:"🔌",  rarity:"Common",   price:250},
+  {name:"Energy Cell",     icon:"🔋",  rarity:"Common",   price:250},
+  {name:"Time Fragment",   icon:"⌛",  rarity:"Uncommon", price:500},
+  {name:"Cosmic Key",      icon:"🗝️", rarity:"Uncommon", price:500},
+  {name:"Signal Beacon",   icon:"📡",  rarity:"Uncommon", price:500},
+  {name:"Star Dust",       icon:"✨",  rarity:"Uncommon", price:500},
+  {name:"Plasma Core",     icon:"🔮",  rarity:"Rare",     price:1000},
+  {name:"Stellar Map",     icon:"🗺️", rarity:"Rare",     price:1000},
+  {name:"Astro Compass",   icon:"🧭",  rarity:"Rare",     price:1000},
+  {name:"Satellite Core",  icon:"🛰️", rarity:"Rare",     price:1000},
+  {name:"Void Engine",     icon:"⚙️", rarity:"Legendary",price:5000},
+  {name:"Gravity Shard",   icon:"🧊",  rarity:"Legendary",price:5000},
+  {name:"Time Stabilizer", icon:"⏱️", rarity:"Legendary",price:5000},
+  {name:"Stellar Crown",   icon:"👑",  rarity:"Legendary",price:5000},
+  {name:"Solar Relic",     icon:"📿",  rarity:"Mythical", price:10000},
+  {name:"AI Core",         icon:"🤖",  rarity:"Mythical", price:10000},
+  {name:"Eternal Reactor", icon:"♾️",  rarity:"Mythical", price:10000},
+  {name:"Singularity Core",icon:"🌀",  rarity:"Mythical", price:10000},
+  {name:"Wormhole Lens",   icon:"🔍",  rarity:"Celestial",price:20000},
+  {name:"Universe Seed",   icon:"🌱",  rarity:"Celestial",price:20000},
+  {name:"God Particle",    icon:"⚛️", rarity:"Celestial",price:20000}
 ];
 
-/* ✅ SAVE FEATURE */
+/* ══════════════════════════════════════
+   ACHIEVEMENTS
+══════════════════════════════════════ */
+const achievements=[
+  // Money
+  {id:"first_fortune",      icon:"💰",name:"First Fortune",       desc:"Reach a $10,000 balance",
+   check:()=>balance>=10000},
+  {id:"cosmic_billionaire", icon:"🌌",name:"Cosmic Billionaire",  desc:"Reach a $1,000,000 balance",
+   check:()=>balance>=1000000},
+  {id:"high_roller",        icon:"🎰",name:"High Roller",         desc:"Spend $50,000 total",
+   check:()=>stats.totalSpent>=50000},
+  // Drops
+  {id:"lucky_find",         icon:"🔵",name:"Lucky Find",          desc:"Get your first Rare drop",
+   check:()=>discovered.some(n=>items.find(i=>i.name===n)?.rarity==="Rare")},
+  {id:"legendary_pull",     icon:"🟡",name:"Legendary Pull",      desc:"Get your first Legendary drop",
+   check:()=>discovered.some(n=>items.find(i=>i.name===n)?.rarity==="Legendary")},
+  {id:"touched_by_stars",   icon:"🔥",name:"Touched by the Stars",desc:"Get your first Mythical drop",
+   check:()=>discovered.some(n=>items.find(i=>i.name===n)?.rarity==="Mythical")},
+  {id:"celestial_chosen",   icon:"🌠",name:"Celestial Chosen",    desc:"Get your first Celestial drop",
+   check:()=>discovered.some(n=>items.find(i=>i.name===n)?.rarity==="Celestial")},
+  {id:"completionist",      icon:"📖",name:"Completionist",       desc:"Discover all 24 items",
+   check:()=>discovered.length>=items.length},
+  // Buying & Selling
+  {id:"first_purchase",     icon:"🛍️",name:"First Purchase",     desc:"Buy your first item",
+   check:()=>stats.totalBought>=1},
+  {id:"hoarder",            icon:"📦",name:"Hoarder",             desc:"Have 20 items in your inventory",
+   check:()=>inventory.length>=20},
+  {id:"merchant",           icon:"💼",name:"Merchant",            desc:"Sell 10 items total",
+   check:()=>stats.totalSoldCount>=10},
+  {id:"big_spender",        icon:"👑",name:"Big Spender",         desc:"Buy a Celestial item",
+   check:()=>stats.boughtCelestial},
+  // Upgrades
+  {id:"power_surge",        icon:"⚡",name:"Power Surge",         desc:"Buy your first Income upgrade",
+   check:()=>stats.incomeUpgrades>=1},
+  {id:"lucky_charm",        icon:"🍀",name:"Lucky Charm",         desc:"Buy your first Luck upgrade",
+   check:()=>stats.luckUpgrades>=1},
+  {id:"maximized",          icon:"📈",name:"Maximized",           desc:"Reach $50/sec income",
+   check:()=>income>=50},
+  {id:"fortune_favors",     icon:"🎯",name:"Fortune Favors",      desc:"Reach Luck level 10",
+   check:()=>luck>=10},
+  // Generates
+  {id:"getting_started",    icon:"🚀",name:"Getting Started",     desc:"Generate 10 items",
+   check:()=>stats.totalGenerated>=10},
+  {id:"obsessed",           icon:"🔄",name:"Obsessed",            desc:"Generate 100 items",
+   check:()=>stats.totalGenerated>=100},
+  {id:"dedicated_trader",   icon:"🏅",name:"Dedicated Trader",    desc:"Generate 500 items",
+   check:()=>stats.totalGenerated>=500},
+];
+
+let unlockedAchs=new Set();
+
+function checkAchievements(){
+  achievements.forEach(a=>{
+    if(!unlockedAchs.has(a.id)&&a.check()){
+      unlockedAchs.add(a.id);
+      showAchToast(a.name,a.icon);
+    }
+  });
+  renderAchievements();
+}
+
+function renderAchievements(){
+  let list=document.getElementById("achList");
+  if(!list) return;
+  list.innerHTML="";
+  achievements.forEach(a=>{
+    let unlocked=unlockedAchs.has(a.id);
+    let d=document.createElement("div");
+    d.className="ach-card "+(unlocked?"unlocked":"locked");
+    d.innerHTML='<div class="ach-icon">'+a.icon+'</div>'
+      +'<div class="ach-info"><strong>'+a.name+(unlocked?" ✅":"")+'</strong>'+a.desc+'</div>';
+    list.appendChild(d);
+  });
+  let count=unlockedAchs.size, total=achievements.length;
+  document.getElementById("achBar").style.width=(count/total*100)+"%";
+  document.getElementById("achText").innerText=count+" / "+total+" unlocked";
+}
+
+/* ══════════════════════════════════════
+   SAVE / LOAD / RESET
+══════════════════════════════════════ */
 function saveGame(){
-  let saveData = {
-    balance,
-    income,
-    luck,
-    incomeCost,
-    luckCost,
-    inventory,
-    discovered
-  };
-  localStorage.setItem("cosmicMarketSave", JSON.stringify(saveData));
+  let saveData={balance,income,luck,incomeCost,luckCost,
+    inventory,discovered,stats,unlockedAchs:[...unlockedAchs]};
+  localStorage.setItem("cosmicMarketSave",JSON.stringify(saveData));
   showToast("✅ Game Saved!");
 }
 
 function loadGame(){
-  let raw = localStorage.getItem("cosmicMarketSave");
-  if(!raw){
-    showToast("⚠️ No save found!");
-    return;
-  }
-  let data = JSON.parse(raw);
-  balance    = data.balance    ?? 1000;
-  income     = data.income     ?? 15;
-  luck       = data.luck       ?? 0;
-  incomeCost = data.incomeCost ?? 200;
-  luckCost   = data.luckCost   ?? 300;
-  inventory  = data.inventory  ?? [];
-  discovered = data.discovered ?? [];
+  let raw=localStorage.getItem("cosmicMarketSave");
+  if(!raw){showToast("⚠️ No save found!");return;}
+  let d=JSON.parse(raw);
+  balance    =d.balance    ??1000;
+  income     =d.income     ??15;
+  luck       =d.luck       ??0;
+  incomeCost =d.incomeCost ??200;
+  luckCost   =d.luckCost   ??300;
+  inventory  =d.inventory  ??[];
+  discovered =d.discovered ??[];
+  stats      =d.stats      ??{totalSpent:0,totalSoldCount:0,totalGenerated:0,
+                              totalBought:0,boughtCelestial:false,
+                              incomeUpgrades:0,luckUpgrades:0};
+  unlockedAchs=new Set(d.unlockedAchs??[]);
   updateUI();
   showToast("📂 Game Loaded!");
 }
 
-function showToast(msg){
-  let toast = document.getElementById("saveToast");
-  toast.innerText = msg;
-  toast.classList.add("show");
-  setTimeout(()=> toast.classList.remove("show"), 2000);
-}
-
-/* ✅ RESET FEATURE (was missing before) */
 function resetGame(){
   if(!confirm("Reset all progress? This cannot be undone!")) return;
   localStorage.removeItem("cosmicMarketSave");
-  balance=1000; income=15; luck=0;
-  incomeCost=200; luckCost=300;
-  inventory=[]; discovered=[];
+  balance=1000;income=15;luck=0;
+  incomeCost=200;luckCost=300;
+  inventory=[];discovered=[];
+  stats={totalSpent:0,totalSoldCount:0,totalGenerated:0,
+         totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0};
+  unlockedAchs=new Set();
   currentItem=null;
   document.getElementById("icon").innerText="❓";
   document.getElementById("name").innerText="Unknown";
@@ -303,10 +444,13 @@ function resetGame(){
   showToast("🧹 Game Reset!");
 }
 
+/* ══════════════════════════════════════
+   CORE GAME LOGIC
+══════════════════════════════════════ */
 function getRarity(){
-  let r=Math.random()*100 - Math.min(luck, 30); // cap luck effect at 30 to prevent always-Celestial
-  if(r<1) return "Celestial";
-  if(r<5) return "Mythical";
+  let r=Math.random()*100-Math.min(luck,30);
+  if(r<1)  return "Celestial";
+  if(r<5)  return "Mythical";
   if(r<12) return "Legendary";
   if(r<25) return "Rare";
   if(r<50) return "Uncommon";
@@ -314,21 +458,16 @@ function getRarity(){
 }
 
 let currentItem;
-
 let canGen=true;
+
 function generate(){
   if(!canGen) return;
   canGen=false;
   document.getElementById("genBtn").disabled=true;
-
-  setTimeout(()=>{
-    canGen=true;
-    document.getElementById("genBtn").disabled=false;
-  },1000);
+  setTimeout(()=>{canGen=true;document.getElementById("genBtn").disabled=false;},1000);
 
   let rarity=getRarity();
   let pool=items.filter(i=>i.rarity===rarity);
-
   currentItem=pool.length?pool[Math.floor(Math.random()*pool.length)]
                          :items[Math.floor(Math.random()*items.length)];
 
@@ -338,19 +477,18 @@ function generate(){
   document.getElementById("rarity").className=currentItem.rarity;
   document.getElementById("price").innerText=currentItem.price;
 
+  stats.totalGenerated++;
   rareEffect(currentItem.rarity);
+  checkAchievements();
 }
 
 function rareEffect(r){
   if(r==="Mythical"||r==="Celestial"){
     let t=document.getElementById("dropText");
     let card=document.getElementById("itemCard");
-
     t.innerText=r==="Celestial"?"🌌 CELESTIAL!!!":"🔥 MYTHICAL!";
     t.classList.add("showText");
-
     card.classList.add(r==="Celestial"?"glow-celestial":"glow-mythical");
-
     setTimeout(()=>{
       t.classList.remove("showText");
       card.classList.remove("glow-mythical","glow-celestial");
@@ -362,47 +500,63 @@ function buy(){
   if(!currentItem) return;
   if(balance>=currentItem.price){
     balance-=currentItem.price;
+    stats.totalSpent+=currentItem.price;
+    stats.totalBought++;
+    if(currentItem.rarity==="Celestial") stats.boughtCelestial=true;
     inventory.push(currentItem);
     if(!discovered.includes(currentItem.name)) discovered.push(currentItem.name);
     updateUI();
+    checkAchievements();
   }
 }
 
 function sellItem(index){
-  let item = inventory[index];
+  let item=inventory[index];
   if(!item) return;
-  balance += Math.floor(item.price * 0.5);
+  balance+=Math.floor(item.price*0.5);
+  stats.totalSoldCount++;
   inventory.splice(index,1);
   updateUI();
+  checkAchievements();
 }
 
 function buyIncome(){
   if(balance>=incomeCost){
     balance-=incomeCost;
+    stats.totalSpent+=incomeCost;
     income+=5;
+    stats.incomeUpgrades++;
     incomeCost=Math.floor(incomeCost*1.5);
     updateUI();
+    checkAchievements();
   }
 }
+
 function buyLuck(){
   if(balance>=luckCost){
     balance-=luckCost;
+    stats.totalSpent+=luckCost;
     luck+=1;
+    stats.luckUpgrades++;
     luckCost=Math.floor(luckCost*1.6);
     updateUI();
+    checkAchievements();
   }
 }
 
 setInterval(()=>{
   balance+=income;
   updateUI();
+  checkAchievements();
 },1000);
 
+/* ══════════════════════════════════════
+   UPDATE UI
+══════════════════════════════════════ */
 function updateUI(){
   document.getElementById("balance").innerText=Math.floor(balance);
   document.getElementById("income").innerText=income;
   document.getElementById("luck").innerText=luck;
-
   document.getElementById("incomeCost").innerText=incomeCost;
   document.getElementById("luckCost").innerText=luckCost;
 
@@ -423,23 +577,24 @@ function updateUI(){
     d.style.opacity=discovered.includes(i.name)?1:0.3;
     list.appendChild(d);
   });
-
-  let percent=(discovered.length/items.length)*100;
-  document.getElementById("collectionBar").style.width=percent+"%";
+  let pct=(discovered.length/items.length)*100;
+  document.getElementById("collectionBar").style.width=pct+"%";
   document.getElementById("collectionText").innerText=
     discovered.length+" / "+items.length+" discovered";
+
+  renderAchievements();
 }
 
+/* ══════════════════════════════════════
+   STAR BACKGROUND
+══════════════════════════════════════ */
 const canvas=document.getElementById("stars");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
-
 let stars=[];
-for(let i=0;i<100;i++){
+for(let i=0;i<100;i++)
   stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
-}
-
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   stars.forEach(s=>{
@@ -452,10 +607,8 @@ function animate(){
 }
 animate();
 
-// Auto-load save on startup
 loadGame();
 updateUI();
 </script>
-
 </body>
 </html>
