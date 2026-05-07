@@ -8,19 +8,19 @@
 *,*::before,*::after{box-sizing:border-box;}
 body{margin:0;background:black;color:#e6ffff;font-family:'Segoe UI',system-ui,sans-serif;text-align:center;overflow-x:hidden;overflow-y:hidden;}
 canvas{position:fixed;top:0;left:0;z-index:0;pointer-events:none;}
-
 .main{position:relative;z-index:1;max-width:750px;margin:0 auto;padding:56px 12px 60px;height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;}
 .main::-webkit-scrollbar{display:none;}
-
 h1{font-size:clamp(22px,5vw,36px);margin:12px 0 8px;}
 h2{font-size:clamp(16px,4vw,24px);margin:16px 0 8px;}
 
+/* Cards */
 .card{background:rgba(255,255,255,0.07);backdrop-filter:blur(10px);border-radius:18px;padding:clamp(14px,4vw,25px);margin:12px 0;box-shadow:0 0 20px rgba(0,255,255,0.15);transition:box-shadow 0.3s;}
 .glow-mythical{box-shadow:0 0 25px yellow,0 0 50px yellow!important;}
 .glow-celestial{box-shadow:0 0 25px #bb66ff,0 0 60px #bb66ff!important;}
 .glow-universal{animation:universalCardPulse 1s infinite!important;}
 @keyframes universalCardPulse{0%,100%{box-shadow:0 0 30px #fff,0 0 60px #aaffff,0 0 90px #8888ff;}50%{box-shadow:0 0 50px #fff,0 0 90px #ffaaff,0 0 120px #ff88ff;}}
 
+/* Buttons */
 button{min-height:44px;padding:10px 18px;margin:5px;border-radius:12px;border:none;background:linear-gradient(45deg,#00ffd5,#00aaff);cursor:pointer;font-weight:bold;font-size:clamp(13px,3.5vw,15px);touch-action:manipulation;transition:transform 0.15s,opacity 0.15s;}
 button:active{transform:scale(0.96);}
 button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
@@ -38,12 +38,8 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
 .menu-page.active{display:block;}
 
 /* Rarity colours */
-.Common{color:white;}
-.Uncommon{color:#00ff99;}
-.Rare{color:#00ccff;}
-.Legendary{color:gold;}
-.Mythical{color:yellow;}
-.Celestial{color:#bb66ff;}
+.Common{color:white;} .Uncommon{color:#00ff99;} .Rare{color:#00ccff;}
+.Legendary{color:gold;} .Mythical{color:yellow;} .Celestial{color:#bb66ff;}
 .Universal{color:#fff;text-shadow:0 0 6px #fff,0 0 14px #aaf,0 0 28px #88f;animation:uShimmer 2s infinite;}
 @keyframes uShimmer{0%,100%{text-shadow:0 0 6px #fff,0 0 14px #aaffff,0 0 28px #8888ff;}33%{text-shadow:0 0 8px #fff,0 0 18px #ffaaff,0 0 32px #ff88ff;}66%{text-shadow:0 0 8px #fff,0 0 18px #ffffaa,0 0 32px #ffff88;}}
 
@@ -52,20 +48,34 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
 .bar{height:16px;width:0%;background:#00ffd5;border-radius:10px;transition:width 0.4s;}
 #achBar{background:#ffd700;}
 
-/* Grid */
+/* Inventory */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(130px,42vw),1fr));gap:10px;}
 .item{padding:10px 8px;border-radius:14px;background:rgba(255,255,255,0.06);font-size:clamp(11px,3vw,13px);display:flex;flex-direction:column;align-items:center;gap:4px;}
 .item button{width:100%;padding:6px 0;font-size:12px;min-height:34px;}
 .item-income{font-size:11px;opacity:0.75;}
 
+/* Rarity Filter Bar */
+#filterBar{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:6px 0 10px;}
+#filterBar button{min-height:30px;padding:4px 10px;font-size:11px;margin:0;border-radius:8px;flex:0 0 auto;background:rgba(255,255,255,0.1);color:#e6ffff;border:1px solid rgba(255,255,255,0.15);}
+#filterBar button.active{border:1px solid #00ffd5;background:rgba(0,255,213,0.15);box-shadow:0 0 6px #00ffd5;}
+#filterBar .fAll.active{border-color:#00ffd5;box-shadow:0 0 6px #00ffd5;}
+#filterBar .fCommon.active{border-color:white;box-shadow:0 0 6px white;}
+#filterBar .fUncommon.active{border-color:#00ff99;box-shadow:0 0 6px #00ff99;}
+#filterBar .fRare.active{border-color:#00ccff;box-shadow:0 0 6px #00ccff;}
+#filterBar .fLegendary.active{border-color:gold;box-shadow:0 0 6px gold;}
+#filterBar .fMythical.active{border-color:yellow;box-shadow:0 0 6px yellow;}
+#filterBar .fCelestial.active{border-color:#bb66ff;box-shadow:0 0 6px #bb66ff;}
+#filterBar .fUniversal.active{border-color:#fff;box-shadow:0 0 8px #fff,0 0 16px #aaf;}
+
+/* Slot info */
+#slotInfo{font-size:13px;opacity:0.65;margin:0 0 6px;}
+
 /* Stats bar */
 #statsBar{display:flex;justify-content:center;gap:clamp(10px,3vw,24px);flex-wrap:wrap;margin:4px 0 8px;font-size:clamp(13px,3.5vw,16px);}
 #statsBar p{margin:2px 0;}
-
-/* Collection */
 #collectionList div{padding:5px 4px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:left;}
 
-/* Achievements */
+/* Ach cards */
 .ach-card{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border-radius:12px;padding:10px 12px;margin:6px 0;text-align:left;border:1px solid transparent;transition:0.3s;}
 .ach-card.unlocked{border-color:gold;background:rgba(255,200,0,0.08);}
 .ach-card.locked{opacity:0.35;}
@@ -73,12 +83,27 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
 .ach-info{font-size:12px;line-height:1.5;min-width:0;}
 .ach-info strong{font-size:13px;display:block;}
 
+/* Milestone cards */
+.ms-card{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.05);border-radius:12px;padding:10px 12px;margin:6px 0;text-align:left;border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
+.ms-card.done{border-color:#00ffd5;background:rgba(0,255,180,0.07);}
+.ms-card.locked{opacity:0.4;}
+.ms-icon{font-size:22px;flex-shrink:0;}
+.ms-body{font-size:12px;line-height:1.5;}
+.ms-body strong{font-size:13px;display:block;}
+.ms-reward{color:#00ffd5;font-size:11px;}
+
 /* Stats page */
 .stat-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;background:rgba(255,255,255,0.05);border-radius:10px;padding:9px 12px;margin:5px 0;font-size:clamp(12px,3.2vw,14px);text-align:left;}
 .stat-row span{color:#00ffd5;font-weight:bold;white-space:nowrap;}
 
 /* Shop */
 .shop-desc{font-size:11px;opacity:0.6;margin:0 4px 8px;display:block;text-align:left;}
+
+/* Luck Shrine */
+#shrineBtn{background:linear-gradient(45deg,#9900ff,#ff00cc);color:#fff;}
+#shrineBtn.active-shrine{background:linear-gradient(45deg,#440066,#660044);animation:shrinePulse 1s infinite;}
+@keyframes shrinePulse{0%,100%{box-shadow:0 0 8px #9900ff,0 0 20px #ff00cc;}50%{box-shadow:0 0 16px #cc00ff,0 0 36px #ff44ff;}}
+#shrineCountdown{font-size:11px;opacity:0.7;margin:0 4px 6px;display:block;text-align:left;}
 
 /* Event banner */
 #eventBanner{display:none;margin:0 0 10px;padding:12px 16px;border-radius:16px;border:2px solid #fff;background:rgba(255,255,255,0.07);backdrop-filter:blur(10px);animation:eventPulse 2s infinite;}
@@ -92,15 +117,15 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
 #mysteryCrateArea{margin-top:10px;}
 #mysteryCrateBtn{background:linear-gradient(45deg,#ff66cc,#aa44ff);color:#fff;font-size:13px;}
 
-/* Rebirth */
+/* Rebirth banner */
 #rebirthBanner{display:none;margin:0 0 10px;padding:9px 14px;border-radius:14px;border:2px solid #ff6600;background:rgba(255,100,0,0.09);font-size:clamp(12px,3vw,14px);color:#ffcc00;}
 #rebirthBanner.show{display:block;}
-#rebirthBtn{background:linear-gradient(45deg,#ff6600,#ffcc00);color:#000;font-weight:bold;transition:box-shadow 0.4s,transform 0.15s;}
+#rebirthBtn{background:linear-gradient(45deg,#ff6600,#ffcc00);color:#000;font-weight:bold;}
 #rebirthBtn.ready{animation:rebirthPulse 1.5s infinite;}
 @keyframes rebirthPulse{0%,100%{box-shadow:0 0 10px #ff6600,0 0 20px #ffcc00;}50%{box-shadow:0 0 22px #ff6600,0 0 44px #ffcc00;}}
 
 /* Daily challenges */
-.challenge-card{background:rgba(255,255,255,0.05);border-radius:14px;padding:12px;margin:8px 0;text-align:left;border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
+.challenge-card{background:rgba(255,255,255,0.05);border-radius:14px;padding:12px;margin:8px 0;text-align:left;border:1px solid rgba(255,255,255,0.1);}
 .challenge-card.done{border-color:#00ffd5;background:rgba(0,255,180,0.07);}
 .challenge-card.claimed{border-color:#555;opacity:0.5;}
 .ch-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
@@ -111,7 +136,6 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
 .ch-bar{height:10px;border-radius:6px;background:linear-gradient(90deg,#00ffd5,#00aaff);transition:width 0.4s;}
 .ch-progress{font-size:11px;opacity:0.7;margin:3px 0 6px;}
 .ch-claim-btn{background:linear-gradient(45deg,#00ffd5,#00aaff);border:none;border-radius:8px;padding:6px 14px;font-weight:bold;font-size:13px;cursor:pointer;color:#000;min-height:34px;}
-.ch-claim-btn:disabled{opacity:0.4;cursor:not-allowed;}
 #dailyReset{font-size:12px;opacity:0.6;margin:4px 0 10px;}
 
 /* Toasts */
@@ -119,23 +143,16 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
 #saveToast.show{opacity:1;}
 #achToast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:rgba(255,200,0,0.13);border:2px solid gold;color:gold;padding:12px 20px;border-radius:16px;font-weight:bold;font-size:clamp(13px,3.5vw,15px);opacity:0;transition:opacity 0.5s;pointer-events:none;z-index:300;max-width:92vw;white-space:normal;text-align:center;}
 #achToast.show{opacity:1;}
-
-/* Drop text */
 #dropText{position:fixed;top:38%;width:100%;font-size:clamp(28px,8vw,48px);font-weight:bold;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:20;text-shadow:0 0 20px currentColor;}
 .showText{opacity:1!important;}
+#icon{font-size:clamp(40px,12vw,60px);}
 
-/* Audio controls in settings */
+/* Audio toggles */
 .audio-toggle{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 14px;margin:6px 0;font-size:14px;}
 .toggle-btn{min-height:34px;padding:5px 14px;font-size:13px;margin:0;border-radius:8px;width:auto;}
 .toggle-btn.off{background:linear-gradient(45deg,#444,#666);}
 
-#icon{font-size:clamp(40px,12vw,60px);}
-
-@media(min-width:600px){
-  .main{padding:70px 20px 60px;}
-  .card{margin:16px 0;padding:22px;}
-  #statsBar{font-size:16px;gap:24px;}
-}
+@media(min-width:600px){.main{padding:70px 20px 60px;}.card{margin:16px 0;padding:22px;}#statsBar{font-size:16px;gap:24px;}}
 </style>
 </head>
 <body>
@@ -149,11 +166,11 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
 <!-- ═══ SIDEBAR ═══ -->
 <div id="sidebar" class="sidebar">
   <button class="close-btn" onclick="closeSidebar()">&#10006; Close</button>
-
   <div id="mainMenu" class="menu-page active">
     <button onclick="openMenu('shopMenu')">&#128722; Shop</button>
     <button onclick="openMenu('collectionMenu')">&#128218; Collection</button>
     <button onclick="openMenu('achievementsMenu')">&#127942; Achievements</button>
+    <button onclick="openMenu('milestonesMenu')">&#127937; Milestones</button>
     <button onclick="openMenu('dailyMenu')">&#128197; Daily Challenges</button>
     <button onclick="openMenu('statsMenu')">&#128202; Stats</button>
     <button onclick="openMenu('settingsMenu')">&#9881;&#65039; Settings</button>
@@ -171,6 +188,11 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
     <span class="shop-desc">+10% to all item earnings</span>
     <button onclick="buyLuck()">&#127808; Luck Upgrade<br><small>$<span id="luckCost"></span></small></button>
     <span class="shop-desc">Increases chance of rarer drops</span>
+    <button onclick="buySlots()">&#128230; +5 Inventory Slots<br><small>$<span id="slotCost"></span></small></button>
+    <span class="shop-desc">Current max: <span id="maxSlotsDisplay"></span> slots</span>
+    <button id="shrineBtn" onclick="activateShrine()">&#128302; Luck Shrine<br><small>$<span id="shrineCostDisplay"></span></small></button>
+    <span id="shrineCountdown"></span>
+    <span class="shop-desc">+50 Luck for 30 seconds</span>
   </div>
 
   <div id="collectionMenu" class="menu-page">
@@ -186,6 +208,14 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
     <div class="bar-bg"><div id="achBar" class="bar"></div></div>
     <p id="achText" style="font-size:13px;margin:6px 0;"></p>
     <div id="achList"></div>
+  </div>
+
+  <div id="milestonesMenu" class="menu-page">
+    <button onclick="openMenu('mainMenu')">&larr; Back</button>
+    <h3 style="margin:10px 0 4px;">&#127937; Milestones</h3>
+    <p style="font-size:12px;opacity:0.6;margin:0 0 8px;">Permanent one-time bonuses</p>
+    <div id="msBonusInfo" style="font-size:12px;color:#00ffd5;margin:0 0 10px;background:rgba(0,255,180,0.08);border-radius:8px;padding:8px;"></div>
+    <div id="milestoneList"></div>
   </div>
 
   <div id="dailyMenu" class="menu-page">
@@ -204,14 +234,8 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
   <div id="settingsMenu" class="menu-page">
     <button onclick="openMenu('mainMenu')">&larr; Back</button>
     <h3 style="margin:10px 0 8px;">&#9881;&#65039; Settings</h3>
-    <div class="audio-toggle">
-      <span>&#127925; Music</span>
-      <button class="toggle-btn" id="musicToggleBtn" onclick="toggleMusic()">ON</button>
-    </div>
-    <div class="audio-toggle">
-      <span>&#128266; Sound FX</span>
-      <button class="toggle-btn" id="sfxToggleBtn" onclick="toggleSFX()">ON</button>
-    </div>
+    <div class="audio-toggle"><span>&#127925; Music</span><button class="toggle-btn" id="musicToggleBtn" onclick="toggleMusic()">ON</button></div>
+    <div class="audio-toggle"><span>&#128266; Sound FX</span><button class="toggle-btn" id="sfxToggleBtn" onclick="toggleSFX()">ON</button></div>
     <br>
     <button onclick="resetGame()" style="background:linear-gradient(45deg,#cc2200,#ff4422);color:#fff;">&#129529; Reset All Progress</button>
   </div>
@@ -229,8 +253,7 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
   <p id="multiplierDisplay" style="font-size:12px;opacity:0.65;margin:0 0 8px;"></p>
 
   <div id="eventBanner">
-    <div id="eventTitle"></div>
-    <div id="eventDesc"></div>
+    <div id="eventTitle"></div><div id="eventDesc"></div>
     <div id="eventTimerBg"><div id="eventTimerBar" style="width:100%"></div></div>
     <div id="eventCountdown"></div>
     <div id="mysteryCrateArea" style="display:none;">
@@ -251,293 +274,48 @@ button:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
     </div>
   </div>
 
-  <h2>Inventory</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-top:16px;">
+    <h2 style="margin:0;">Inventory</h2>
+    <span id="slotInfo" style="font-size:13px;opacity:0.65;"></span>
+  </div>
+  <div id="filterBar">
+    <button class="fAll active" onclick="setFilter('All')">All</button>
+    <button class="fCommon"     onclick="setFilter('Common')">Common</button>
+    <button class="fUncommon"   onclick="setFilter('Uncommon')">Uncommon</button>
+    <button class="fRare"       onclick="setFilter('Rare')">Rare</button>
+    <button class="fLegendary"  onclick="setFilter('Legendary')">Legendary</button>
+    <button class="fMythical"   onclick="setFilter('Mythical')">Mythical</button>
+    <button class="fCelestial"  onclick="setFilter('Celestial')">Celestial</button>
+    <button class="fUniversal"  onclick="setFilter('Universal')">Universal</button>
+  </div>
   <div id="inventoryGrid" class="grid"></div>
 </div>
 
 <script>
 /* ══════════════════════════════════════
-   AUDIO SYSTEM
+   AUDIO
 ══════════════════════════════════════ */
-let audioCtx = null;
-let musicEnabled = true;
-let sfxEnabled   = true;
-let musicPlaying = false;
-let musicNodes   = [];
-let musicInterval = null;
-
-function getCtx(){
-  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  if(audioCtx.state==='suspended') audioCtx.resume();
-  return audioCtx;
-}
-
-function playTone(freq, type, dur, vol, delay=0){
-  if(!sfxEnabled) return;
-  try{
-    let c=getCtx(), o=c.createOscillator(), g=c.createGain();
-    o.type=type; o.frequency.setValueAtTime(freq, c.currentTime+delay);
-    g.gain.setValueAtTime(vol, c.currentTime+delay);
-    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime+delay+dur);
-    o.connect(g); g.connect(c.destination);
-    o.start(c.currentTime+delay); o.stop(c.currentTime+delay+dur);
-  }catch(e){}
-}
-
-function snd(name){
-  if(!sfxEnabled) return;
-  switch(name){
-    case 'click':    playTone(900,'sine',0.05,0.08); break;
-    case 'generate': {
-      let c=getCtx(),o=c.createOscillator(),g=c.createGain();
-      o.type='sawtooth';
-      o.frequency.setValueAtTime(150,c.currentTime);
-      o.frequency.exponentialRampToValueAtTime(550,c.currentTime+0.25);
-      g.gain.setValueAtTime(0.07,c.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.28);
-      o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.28);
-      break;
-    }
-    case 'buy':      [440,554,659].forEach((f,i)=>playTone(f,'sine',0.25,0.18,i*0.07)); break;
-    case 'sell':     [660,494,392].forEach((f,i)=>playTone(f,'sine',0.18,0.15,i*0.07)); break;
-    case 'upgrade':  [523,659,784,1047].forEach((f,i)=>playTone(f,'sine',0.2,0.15,i*0.06)); break;
-    case 'rare':     [523,659,784].forEach((f,i)=>playTone(f,'sine',0.35,0.2,i*0.09)); break;
-    case 'legendary':[392,494,587,698,880].forEach((f,i)=>playTone(f,'triangle',0.5,0.25,i*0.08)); break;
-    case 'mythical': [262,330,392,523,659,784].forEach((f,i)=>playTone(f,'sine',0.7,0.28,i*0.07)); break;
-    case 'celestial':[131,262,523,659,1047,1319].forEach((f,i)=>playTone(f,'sine',1.0,0.3,i*0.06)); break;
-    case 'universal':[65,131,196,262,330,392,523,659,784,1047].forEach((f,i)=>playTone(f,'sine',2.5,0.28,i*0.05)); break;
-    case 'achievement':[523,659,784,1047,1319].forEach((f,i)=>playTone(f,'sine',0.45,0.22,i*0.09)); break;
-    case 'event':    [440,550,440,660,550].forEach((f,i)=>playTone(f,'square',0.12,0.12,i*0.09)); break;
-    case 'rebirth':  [130,164,196,247,330,392,523,659,784,1047].forEach((f,i)=>playTone(f,'sine',1.2,0.22,i*0.09)); break;
-    case 'challenge':[523,784,1047,1319].forEach((f,i)=>playTone(f,'sine',0.5,0.25,i*0.08)); break;
-  }
-}
-
-// Drop sound by rarity
-function sndDrop(r){
-  const map={Common:null,Uncommon:null,Rare:'rare',Legendary:'legendary',Mythical:'mythical',Celestial:'celestial',Universal:'universal'};
-  if(map[r]) snd(map[r]);
-}
-
-// Ambient space music
-const MUSIC_NOTES=[65.41,82.41,98,130.81,164.81,196,261.63,329.63];
-function startMusic(){
-  if(!musicEnabled||musicPlaying) return;
-  musicPlaying=true;
-  try{
-    let c=getCtx();
-    let master=c.createGain(); master.gain.setValueAtTime(0.04,c.currentTime); master.connect(c.destination);
-    // Drone
-    [65.41,130.81].forEach(f=>{
-      let o=c.createOscillator(),g=c.createGain();
-      o.type='sine'; o.frequency.setValueAtTime(f,c.currentTime);
-      g.gain.setValueAtTime(0.5,c.currentTime);
-      o.connect(g); g.connect(master); o.start();
-      musicNodes.push(o);
-    });
-    // Random melodic notes every 2.5s
-    musicInterval=setInterval(()=>{
-      if(!musicEnabled||!musicPlaying) return;
-      try{
-        let c2=getCtx();
-        let note=MUSIC_NOTES[Math.floor(Math.random()*MUSIC_NOTES.length)]*2;
-        let o=c2.createOscillator(),g=c2.createGain();
-        o.type='sine'; o.frequency.setValueAtTime(note,c2.currentTime);
-        g.gain.setValueAtTime(0.03,c2.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001,c2.currentTime+3.5);
-        o.connect(g); g.connect(c2.destination); o.start(); o.stop(c2.currentTime+3.5);
-      }catch(e){}
-    },2500);
-  }catch(e){}
-}
-function stopMusic(){
-  musicPlaying=false;
-  musicNodes.forEach(n=>{try{n.stop();}catch(e){}});
-  musicNodes=[];
-  if(musicInterval){clearInterval(musicInterval);musicInterval=null;}
-}
-function toggleMusic(){
-  musicEnabled=!musicEnabled;
-  document.getElementById('musicToggleBtn').textContent=musicEnabled?'ON':'OFF';
-  document.getElementById('musicToggleBtn').classList.toggle('off',!musicEnabled);
-  if(musicEnabled) startMusic(); else stopMusic();
-  saveSoundPrefs();
-}
-function toggleSFX(){
-  sfxEnabled=!sfxEnabled;
-  document.getElementById('sfxToggleBtn').textContent=sfxEnabled?'ON':'OFF';
-  document.getElementById('sfxToggleBtn').classList.toggle('off',!sfxEnabled);
-  saveSoundPrefs();
-}
-function saveSoundPrefs(){
-  localStorage.setItem('cmSoundPrefs',JSON.stringify({musicEnabled,sfxEnabled}));
-}
-function loadSoundPrefs(){
-  let raw=localStorage.getItem('cmSoundPrefs');
-  if(!raw) return;
-  let p=JSON.parse(raw);
-  musicEnabled=p.musicEnabled??true;
-  sfxEnabled=p.sfxEnabled??true;
-  document.getElementById('musicToggleBtn').textContent=musicEnabled?'ON':'OFF';
-  document.getElementById('musicToggleBtn').classList.toggle('off',!musicEnabled);
-  document.getElementById('sfxToggleBtn').textContent=sfxEnabled?'ON':'OFF';
-  document.getElementById('sfxToggleBtn').classList.toggle('off',!sfxEnabled);
-}
+let audioCtx=null,musicEnabled=true,sfxEnabled=true,musicPlaying=false,musicNodes=[],musicInterval=null;
+function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
+function playTone(freq,type,dur,vol,delay=0){if(!sfxEnabled)return;try{let c=getCtx(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,c.currentTime+delay);g.gain.setValueAtTime(vol,c.currentTime+delay);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+delay+dur);o.connect(g);g.connect(c.destination);o.start(c.currentTime+delay);o.stop(c.currentTime+delay+dur);}catch(e){}}
+function snd(name){if(!sfxEnabled)return;switch(name){case 'click':playTone(900,'sine',0.05,0.08);break;case 'generate':{let c=getCtx(),o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(150,c.currentTime);o.frequency.exponentialRampToValueAtTime(550,c.currentTime+0.25);g.gain.setValueAtTime(0.07,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.28);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.28);break;}case 'buy':[440,554,659].forEach((f,i)=>playTone(f,'sine',0.25,0.18,i*0.07));break;case 'sell':[660,494,392].forEach((f,i)=>playTone(f,'sine',0.18,0.15,i*0.07));break;case 'upgrade':[523,659,784,1047].forEach((f,i)=>playTone(f,'sine',0.2,0.15,i*0.06));break;case 'rare':[523,659,784].forEach((f,i)=>playTone(f,'sine',0.35,0.2,i*0.09));break;case 'legendary':[392,494,587,698,880].forEach((f,i)=>playTone(f,'triangle',0.5,0.25,i*0.08));break;case 'mythical':[262,330,392,523,659,784].forEach((f,i)=>playTone(f,'sine',0.7,0.28,i*0.07));break;case 'celestial':[131,262,523,659,1047,1319].forEach((f,i)=>playTone(f,'sine',1.0,0.3,i*0.06));break;case 'universal':[65,131,196,262,330,392,523,659,784,1047].forEach((f,i)=>playTone(f,'sine',2.5,0.28,i*0.05));break;case 'achievement':[523,659,784,1047,1319].forEach((f,i)=>playTone(f,'sine',0.45,0.22,i*0.09));break;case 'event':[440,550,440,660,550].forEach((f,i)=>playTone(f,'square',0.12,0.12,i*0.09));break;case 'rebirth':[130,164,196,247,330,392,523,659,784,1047].forEach((f,i)=>playTone(f,'sine',1.2,0.22,i*0.09));break;case 'challenge':[523,784,1047,1319].forEach((f,i)=>playTone(f,'sine',0.5,0.25,i*0.08));break;case 'shrine':{[196,247,330,440,554,659,880].forEach((f,i)=>playTone(f,'sine',0.8,0.2,i*0.06));break;}case 'milestone':[440,554,659,880,1047].forEach((f,i)=>playTone(f,'sine',0.5,0.22,i*0.08));break;}}
+function sndDrop(r){const m={Rare:'rare',Legendary:'legendary',Mythical:'mythical',Celestial:'celestial',Universal:'universal'};if(m[r])snd(m[r]);}
+const MNOTES=[65.41,82.41,98,130.81,164.81,196,261.63,329.63];
+function startMusic(){if(!musicEnabled||musicPlaying)return;musicPlaying=true;try{let c=getCtx(),master=c.createGain();master.gain.setValueAtTime(0.04,c.currentTime);master.connect(c.destination);[65.41,130.81].forEach(f=>{let o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(f,c.currentTime);g.gain.setValueAtTime(0.5,c.currentTime);o.connect(g);g.connect(master);o.start();musicNodes.push(o);});musicInterval=setInterval(()=>{if(!musicEnabled||!musicPlaying)return;try{let c2=getCtx(),note=MNOTES[Math.floor(Math.random()*MNOTES.length)]*2,o=c2.createOscillator(),g=c2.createGain();o.type='sine';o.frequency.setValueAtTime(note,c2.currentTime);g.gain.setValueAtTime(0.03,c2.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c2.currentTime+3.5);o.connect(g);g.connect(c2.destination);o.start();o.stop(c2.currentTime+3.5);}catch(e){}},2500);}catch(e){}}
+function stopMusic(){musicPlaying=false;musicNodes.forEach(n=>{try{n.stop();}catch(e){}});musicNodes=[];if(musicInterval){clearInterval(musicInterval);musicInterval=null;}}
+function toggleMusic(){musicEnabled=!musicEnabled;document.getElementById('musicToggleBtn').textContent=musicEnabled?'ON':'OFF';document.getElementById('musicToggleBtn').classList.toggle('off',!musicEnabled);if(musicEnabled)startMusic();else stopMusic();saveSoundPrefs();}
+function toggleSFX(){sfxEnabled=!sfxEnabled;document.getElementById('sfxToggleBtn').textContent=sfxEnabled?'ON':'OFF';document.getElementById('sfxToggleBtn').classList.toggle('off',!sfxEnabled);saveSoundPrefs();}
+function saveSoundPrefs(){localStorage.setItem('cmSoundPrefs',JSON.stringify({musicEnabled,sfxEnabled}));}
+function loadSoundPrefs(){let raw=localStorage.getItem('cmSoundPrefs');if(!raw)return;let p=JSON.parse(raw);musicEnabled=p.musicEnabled??true;sfxEnabled=p.sfxEnabled??true;document.getElementById('musicToggleBtn').textContent=musicEnabled?'ON':'OFF';document.getElementById('musicToggleBtn').classList.toggle('off',!musicEnabled);document.getElementById('sfxToggleBtn').textContent=sfxEnabled?'ON':'OFF';document.getElementById('sfxToggleBtn').classList.toggle('off',!sfxEnabled);}
 
 /* ══════════════════════════════════════
-   DAILY CHALLENGES
+   HELPERS
 ══════════════════════════════════════ */
-const challengePool=[
-  {id:'gen15',    icon:'🎲',desc:'Generate 15 items',          reward:1500,  key:'generated', target:15},
-  {id:'gen40',    icon:'🎲',desc:'Generate 40 items',          reward:4000,  key:'generated', target:40},
-  {id:'gen100',   icon:'🎲',desc:'Generate 100 items',         reward:10000, key:'generated', target:100},
-  {id:'buy5',     icon:'🛍️',desc:'Buy 5 items',               reward:2500,  key:'bought',    target:5},
-  {id:'buy15',    icon:'🛍️',desc:'Buy 15 items',              reward:7000,  key:'bought',    target:15},
-  {id:'sell5',    icon:'💼',desc:'Sell 5 items',               reward:2000,  key:'sold',      target:5},
-  {id:'sell10',   icon:'💼',desc:'Sell 10 items',              reward:5000,  key:'sold',      target:10},
-  {id:'rare',     icon:'🔵',desc:'Pull a Rare or better',      reward:2000,  key:'rarityGte', target:'Rare'},
-  {id:'legendary',icon:'🟡',desc:'Pull a Legendary or better', reward:5000,  key:'rarityGte', target:'Legendary'},
-  {id:'mythical', icon:'🔥',desc:'Pull a Mythical or better',  reward:12000, key:'rarityGte', target:'Mythical'},
-  {id:'celestial',icon:'🌠',desc:'Pull a Celestial or better', reward:25000, key:'rarityGte', target:'Celestial'},
-  {id:'event1',   icon:'🌩️',desc:'Survive 1 event',           reward:3000,  key:'events',    target:1},
-  {id:'event3',   icon:'🌩️',desc:'Survive 3 events',          reward:9000,  key:'events',    target:3},
-  {id:'spend5k',  icon:'💸',desc:'Spend $5,000',               reward:3000,  key:'spent',     target:5000},
-  {id:'spend25k', icon:'💸',desc:'Spend $25,000',              reward:10000, key:'spent',     target:25000},
-  {id:'inv10',    icon:'📦',desc:'Hold 10 items in inventory',  reward:4000,  key:'inventory', target:10},
-  {id:'crash',    icon:'💹',desc:'Buy during a Market Crash',   reward:6000,  key:'crashBuy',  target:1},
-  {id:'upgrade',  icon:'⚡',desc:'Buy 3 upgrades',             reward:5000,  key:'upgrades',  target:3},
-];
-
-let dailyDate='';
-let dailyChallenges=[];
-let dailyClaimed=[];
-let dailyP={generated:0,bought:0,sold:0,events:0,spent:0,crashBuy:0,upgrades:0,bestRarity:'Common'};
-
-function todayStr(){ return new Date().toDateString(); }
-
-function seededRand(seed){
-  let x=Math.sin(seed)*10000; return x-Math.floor(x);
-}
-
-function pickDailyChallenges(){
-  let seed=todayStr().split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-  let pool=[...challengePool], chosen=[];
-  for(let i=0;i<3&&pool.length>0;i++){
-    let s=(seed*(i+1)*1664525+1013904223)>>>0;
-    let idx=s%pool.length;
-    chosen.push(pool[idx]);
-    pool.splice(idx,1);
-  }
-  return chosen;
-}
-
-function initDailyChallenges(){
-  let today=todayStr();
-  if(dailyDate!==today){
-    dailyDate=today;
-    dailyChallenges=pickDailyChallenges();
-    dailyClaimed=[];
-    dailyP={generated:0,bought:0,sold:0,events:0,spent:0,crashBuy:0,upgrades:0,bestRarity:'Common'};
-  }
-}
-
-function getChallengeProgress(ch){
-  switch(ch.key){
-    case 'generated': return Math.min(dailyP.generated, ch.target);
-    case 'bought':    return Math.min(dailyP.bought, ch.target);
-    case 'sold':      return Math.min(dailyP.sold, ch.target);
-    case 'events':    return Math.min(dailyP.events, ch.target);
-    case 'spent':     return Math.min(dailyP.spent, ch.target);
-    case 'crashBuy':  return Math.min(dailyP.crashBuy, ch.target);
-    case 'upgrades':  return Math.min(dailyP.upgrades, ch.target);
-    case 'inventory': return Math.min(inventory.length, ch.target);
-    case 'rarityGte': return rarityRank[dailyP.bestRarity]>=rarityRank[ch.target]?1:0;
-    default: return 0;
-  }
-}
-
-function getChallengeDone(ch){
-  let target = ch.key==='rarityGte' ? 1 : ch.target;
-  return getChallengeProgress(ch) >= target;
-}
-
-function claimChallenge(id){
-  let ch=dailyChallenges.find(c=>c.id===id);
-  if(!ch||dailyClaimed.includes(id)||!getChallengeDone(ch)) return;
-  dailyClaimed.push(id);
-  balance+=ch.reward;
-  snd('challenge');
-  showToast('🎯 Challenge complete! +$'+formatNum(ch.reward));
-  updateUI();
-  renderDailyChallenges();
-}
-
-function renderDailyChallenges(){
-  let list=document.getElementById('dailyList');
-  if(!list) return;
-
-  // Time until midnight
-  let now=new Date(), midnight=new Date(now); midnight.setHours(24,0,0,0);
-  let diff=Math.floor((midnight-now)/1000);
-  let h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60),s=diff%60;
-  document.getElementById('dailyReset').innerText=
-    '🔄 Resets in '+h+'h '+m+'m '+s+'s';
-
-  list.innerHTML='';
-  dailyChallenges.forEach(ch=>{
-    let claimed=dailyClaimed.includes(ch.id);
-    let done=getChallengeDone(ch);
-    let prog=getChallengeProgress(ch);
-    let target=ch.key==='rarityGte'?1:ch.target;
-    let pct=Math.min(100,(prog/target)*100);
-
-    let d=document.createElement('div');
-    d.className='challenge-card'+(claimed?' claimed':done?' done':'');
-    d.innerHTML=`
-      <div class="ch-header">
-        <span class="ch-icon">${ch.icon}</span>
-        <span class="ch-desc">${ch.desc}</span>
-        <span class="ch-reward">💰 $${formatNum(ch.reward)}</span>
-      </div>
-      <div class="ch-bar-bg"><div class="ch-bar" style="width:${pct}%"></div></div>
-      <div class="ch-progress">${claimed?'✅ Claimed':ch.key==='rarityGte'?(done?'✅ Done':'Not yet'):prog+' / '+target}</div>
-      ${(!claimed&&done)?`<button class="ch-claim-btn" onclick="claimChallenge('${ch.id}')">Claim $${formatNum(ch.reward)}</button>`:''}
-    `;
-    list.appendChild(d);
-  });
-}
-
-/* ══════════════════════════════════════
-   UI HELPERS
-══════════════════════════════════════ */
-function openSidebar(){
-  snd('click');
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('overlay').classList.add('show');
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('overlay').classList.remove('show');
-}
-function openMenu(m){
-  snd('click');
-  document.querySelectorAll('.menu-page').forEach(x=>x.classList.remove('active'));
-  document.getElementById(m).classList.add('active');
-  if(m==='statsMenu') renderStats();
-  if(m==='dailyMenu') renderDailyChallenges();
-}
-function showToast(msg){
-  let t=document.getElementById('saveToast');
-  t.innerText=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2400);
-}
-function showAchToast(name,icon){
-  snd('achievement');
-  let t=document.getElementById('achToast');
-  t.innerText='🏆 '+icon+' '+name+' — Unlocked!';
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3200);
-}
+function openSidebar(){snd('click');document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function openMenu(m){snd('click');document.querySelectorAll('.menu-page').forEach(x=>x.classList.remove('active'));document.getElementById(m).classList.add('active');if(m==='statsMenu')renderStats();if(m==='dailyMenu')renderDailyChallenges();if(m==='milestonesMenu')renderMilestones();}
+function showToast(msg,dur=2400){let t=document.getElementById('saveToast');t.innerText=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
+function showAchToast(name,icon){snd('achievement');let t=document.getElementById('achToast');t.innerText='🏆 '+icon+' '+name+' — Unlocked!';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 function formatTime(s){let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h>0?h+'h '+m+'m '+sec+'s':m>0?m+'m '+sec+'s':sec+'s';}
 function formatNum(n){if(n>=1e9)return(n/1e9).toFixed(2)+'B';if(n>=1e6)return(n/1e6).toFixed(2)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return Math.floor(n).toString();}
 const rarityRank={Common:0,Uncommon:1,Rare:2,Legendary:3,Mythical:4,Celestial:5,Universal:6};
@@ -549,81 +327,224 @@ let balance=1000,luck=0,incomeCost=200,luckCost=300;
 let incomeMultiplier=1.0,incomeUpgradeCount=0;
 let inventory=[],discovered=[];
 let rebirthCount=0,rebirthRequirement=500000;
+let maxSlots=20,slotUpgradeCost=1000;
+let shrineActive=false,shrineTimeLeft=0,shrineCost=5000;
+let inventoryFilter='All';
+let milestoneIncomeBonus=0,sellBonus=0,startingBalance=1000;
+let appliedMilestones=new Set();
 let stats={totalSpent:0,totalSoldCount:0,totalGenerated:0,totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0,lifetimeEarned:0,eventsSurvived:0,playtime:0,bestRarity:'Common',totalRebirths:0};
 
 /* ══════════════════════════════════════
-   INCOME SYSTEM
+   INCOME
 ══════════════════════════════════════ */
 const rarityIncome={Common:2,Uncommon:6,Rare:15,Legendary:80,Mythical:200,Celestial:500,Universal:1000};
 function getRebirthBonus(){return 1+rebirthCount*0.25;}
-function getItemIncome(item){return Math.floor((rarityIncome[item.rarity]||0)*incomeMultiplier*getRebirthBonus());}
+function getItemIncome(item){return Math.floor((rarityIncome[item.rarity]||0)*incomeMultiplier*getRebirthBonus()*(1+milestoneIncomeBonus));}
 function calcTotalIncome(){let surge=(activeEvent?.id==='power_surge')?2:1;return inventory.reduce((s,i)=>s+getItemIncome(i),0)*surge;}
 
 /* ══════════════════════════════════════
    ITEMS
 ══════════════════════════════════════ */
 const items=[
-  // Common
-  {name:'Neon Crystal',    icon:'💎',rarity:'Common',   price:250},
-  {name:'Quantum Chip',    icon:'💾',rarity:'Common',   price:250},
-  {name:'Dark Matter Orb', icon:'⚫',rarity:'Common',   price:250},
-  {name:'Circuit Fragment',icon:'🔌',rarity:'Common',   price:250},
-  {name:'Energy Cell',     icon:'🔋',rarity:'Common',   price:250},
-  {name:'Data Chip',       icon:'💽',rarity:'Common',   price:250},
-  {name:'Scrap Metal',     icon:'🔩',rarity:'Common',   price:250},
-  {name:'Signal Fragment', icon:'📶',rarity:'Common',   price:250},
-  // Uncommon
-  {name:'Time Fragment',   icon:'⌛',rarity:'Uncommon', price:500},
-  {name:'Cosmic Key',      icon:'🗝️',rarity:'Uncommon', price:500},
-  {name:'Signal Beacon',   icon:'📡',rarity:'Uncommon', price:500},
-  {name:'Star Dust',       icon:'✨',rarity:'Uncommon', price:500},
-  {name:'Star Fragment',   icon:'⭐',rarity:'Uncommon', price:500},
-  {name:'Holo Display',    icon:'📺',rarity:'Uncommon', price:500},
-  {name:'Energy Capsule',  icon:'💊',rarity:'Uncommon', price:500},
-  // Rare
-  {name:'Plasma Core',     icon:'🔮',rarity:'Rare',     price:1000},
-  {name:'Stellar Map',     icon:'🗺️',rarity:'Rare',     price:1000},
-  {name:'Astro Compass',   icon:'🧭',rarity:'Rare',     price:1000},
-  {name:'Satellite Core',  icon:'🛰️',rarity:'Rare',     price:1000},
-  {name:'Plasma Engine',   icon:'🔥',rarity:'Rare',     price:1000},
-  {name:'Cosmic Lens',     icon:'🔭',rarity:'Rare',     price:1000},
-  {name:'Gravity Device',  icon:'🧲',rarity:'Rare',     price:1000},
-  // Legendary
-  {name:'Void Engine',     icon:'⚙️',rarity:'Legendary',price:5000},
-  {name:'Gravity Shard',   icon:'🧊',rarity:'Legendary',price:5000},
-  {name:'Time Stabilizer', icon:'⏱️',rarity:'Legendary',price:5000},
-  {name:'Stellar Crown',   icon:'👑',rarity:'Legendary',price:5000},
-  {name:'Time Anchor',     icon:'⚓',rarity:'Legendary',price:5000},
-  {name:'Void Generator',  icon:'⚫',rarity:'Legendary',price:5000},
-  {name:'Cosmic Throne',   icon:'🌌',rarity:'Legendary',price:5000},
-  // Mythical
-  {name:'Solar Relic',     icon:'📿',rarity:'Mythical', price:10000},
-  {name:'AI Core',         icon:'🤖',rarity:'Mythical', price:10000},
-  {name:'Eternal Reactor', icon:'♾️',rarity:'Mythical', price:10000},
-  {name:'Singularity Core',icon:'🌀',rarity:'Mythical', price:10000},
-  {name:'Quantum Soul',    icon:'🧠',rarity:'Mythical', price:10000},
-  {name:'Reality Shard',   icon:'🧩',rarity:'Mythical', price:10000},
-  // Celestial
-  {name:'Wormhole Lens',   icon:'🔍',rarity:'Celestial',price:20000},
-  {name:'Universe Seed',   icon:'🌱',rarity:'Celestial',price:20000},
-  {name:'God Particle',    icon:'⚛️',rarity:'Celestial',price:20000},
-  {name:'Creation Engine', icon:'🌍',rarity:'Celestial',price:20000},
-  // Universal
-  {name:'Black Hole',      icon:'🕳️',rarity:'Universal',price:50000},
+  {name:'Neon Crystal',icon:'💎',rarity:'Common',price:250},{name:'Quantum Chip',icon:'💾',rarity:'Common',price:250},{name:'Dark Matter Orb',icon:'⚫',rarity:'Common',price:250},{name:'Circuit Fragment',icon:'🔌',rarity:'Common',price:250},{name:'Energy Cell',icon:'🔋',rarity:'Common',price:250},{name:'Data Chip',icon:'💽',rarity:'Common',price:250},{name:'Scrap Metal',icon:'🔩',rarity:'Common',price:250},{name:'Signal Fragment',icon:'📶',rarity:'Common',price:250},
+  {name:'Time Fragment',icon:'⌛',rarity:'Uncommon',price:500},{name:'Cosmic Key',icon:'🗝️',rarity:'Uncommon',price:500},{name:'Signal Beacon',icon:'📡',rarity:'Uncommon',price:500},{name:'Star Dust',icon:'✨',rarity:'Uncommon',price:500},{name:'Star Fragment',icon:'⭐',rarity:'Uncommon',price:500},{name:'Holo Display',icon:'📺',rarity:'Uncommon',price:500},{name:'Energy Capsule',icon:'💊',rarity:'Uncommon',price:500},
+  {name:'Plasma Core',icon:'🔮',rarity:'Rare',price:1000},{name:'Stellar Map',icon:'🗺️',rarity:'Rare',price:1000},{name:'Astro Compass',icon:'🧭',rarity:'Rare',price:1000},{name:'Satellite Core',icon:'🛰️',rarity:'Rare',price:1000},{name:'Plasma Engine',icon:'🔥',rarity:'Rare',price:1000},{name:'Cosmic Lens',icon:'🔭',rarity:'Rare',price:1000},{name:'Gravity Device',icon:'🧲',rarity:'Rare',price:1000},
+  {name:'Void Engine',icon:'⚙️',rarity:'Legendary',price:5000},{name:'Gravity Shard',icon:'🧊',rarity:'Legendary',price:5000},{name:'Time Stabilizer',icon:'⏱️',rarity:'Legendary',price:5000},{name:'Stellar Crown',icon:'👑',rarity:'Legendary',price:5000},{name:'Time Anchor',icon:'⚓',rarity:'Legendary',price:5000},{name:'Void Generator',icon:'⚫',rarity:'Legendary',price:5000},{name:'Cosmic Throne',icon:'🌌',rarity:'Legendary',price:5000},
+  {name:'Solar Relic',icon:'📿',rarity:'Mythical',price:10000},{name:'AI Core',icon:'🤖',rarity:'Mythical',price:10000},{name:'Eternal Reactor',icon:'♾️',rarity:'Mythical',price:10000},{name:'Singularity Core',icon:'🌀',rarity:'Mythical',price:10000},{name:'Quantum Soul',icon:'🧠',rarity:'Mythical',price:10000},{name:'Reality Shard',icon:'🧩',rarity:'Mythical',price:10000},
+  {name:'Wormhole Lens',icon:'🔍',rarity:'Celestial',price:20000},{name:'Universe Seed',icon:'🌱',rarity:'Celestial',price:20000},{name:'God Particle',icon:'⚛️',rarity:'Celestial',price:20000},{name:'Creation Engine',icon:'🌍',rarity:'Celestial',price:20000},
+  {name:'Black Hole',icon:'🕳️',rarity:'Universal',price:50000},
 ];
+
+/* ══════════════════════════════════════
+   MILESTONES
+══════════════════════════════════════ */
+const milestoneList=[
+  {id:'earn10k',   icon:'💰',desc:'Earn $10K lifetime',        rewardDesc:'+3% item income',   check:()=>stats.lifetimeEarned>=10000,       apply:()=>{milestoneIncomeBonus+=0.03;}},
+  {id:'earn100k',  icon:'💰',desc:'Earn $100K lifetime',       rewardDesc:'+5% item income',   check:()=>stats.lifetimeEarned>=100000,      apply:()=>{milestoneIncomeBonus+=0.05;}},
+  {id:'earn1m',    icon:'💰',desc:'Earn $1M lifetime',         rewardDesc:'+10% item income',  check:()=>stats.lifetimeEarned>=1000000,     apply:()=>{milestoneIncomeBonus+=0.10;}},
+  {id:'gen50',     icon:'🎲',desc:'Generate 50 items',         rewardDesc:'+1 permanent Luck', check:()=>stats.totalGenerated>=50,           apply:()=>{luck+=1;}},
+  {id:'gen200',    icon:'🎲',desc:'Generate 200 items',        rewardDesc:'+2 permanent Luck', check:()=>stats.totalGenerated>=200,          apply:()=>{luck+=2;}},
+  {id:'disc10',    icon:'📖',desc:'Discover 10 items',         rewardDesc:'+2% item income',   check:()=>discovered.length>=10,             apply:()=>{milestoneIncomeBonus+=0.02;}},
+  {id:'disc_all',  icon:'📖',desc:'Discover all items',        rewardDesc:'+15% item income',  check:()=>discovered.length>=items.length,   apply:()=>{milestoneIncomeBonus+=0.15;}},
+  {id:'sell20',    icon:'💼',desc:'Sell 20 items total',       rewardDesc:'+5% sell value',    check:()=>stats.totalSoldCount>=20,           apply:()=>{sellBonus+=0.05;}},
+  {id:'sell50',    icon:'💼',desc:'Sell 50 items total',       rewardDesc:'+5% sell value',    check:()=>stats.totalSoldCount>=50,           apply:()=>{sellBonus+=0.05;}},
+  {id:'events5',   icon:'🌩️',desc:'Survive 5 events',          rewardDesc:'+3 permanent Luck', check:()=>stats.eventsSurvived>=5,           apply:()=>{luck+=3;}},
+  {id:'events15',  icon:'🌩️',desc:'Survive 15 events',         rewardDesc:'+5% item income',  check:()=>stats.eventsSurvived>=15,           apply:()=>{milestoneIncomeBonus+=0.05;}},
+  {id:'income50',  icon:'⚡',desc:'Reach $50/sec income',      rewardDesc:'+3% item income',   check:()=>calcTotalIncome()>=50,              apply:()=>{milestoneIncomeBonus+=0.03;}},
+  {id:'income500', icon:'⚡',desc:'Reach $500/sec income',     rewardDesc:'+5% item income',   check:()=>calcTotalIncome()>=500,             apply:()=>{milestoneIncomeBonus+=0.05;}},
+  {id:'buy50',     icon:'🛍️',desc:'Buy 50 items total',        rewardDesc:'+5% item income',   check:()=>stats.totalBought>=50,             apply:()=>{milestoneIncomeBonus+=0.05;}},
+  {id:'rebirth1',  icon:'🔁',desc:'Perform first Rebirth',     rewardDesc:'Start with $2,500', check:()=>rebirthCount>=1,                   apply:()=>{startingBalance=2500;}},
+  {id:'slots40',   icon:'📦',desc:'Own 40+ inventory slots',   rewardDesc:'+5% item income',   check:()=>maxSlots>=40,                      apply:()=>{milestoneIncomeBonus+=0.05;}},
+];
+
+function checkMilestones(){
+  let newUnlock=false;
+  milestoneList.forEach(m=>{
+    if(!appliedMilestones.has(m.id)&&m.check()){
+      appliedMilestones.add(m.id);
+      m.apply();
+      newUnlock=true;
+      snd('milestone');
+      showToast('🏅 Milestone: '+m.desc+'! ('+m.rewardDesc+')',3000);
+    }
+  });
+  if(newUnlock) renderMilestones();
+}
+
+function renderMilestones(){
+  let list=document.getElementById('milestoneList');
+  if(!list) return;
+  list.innerHTML='';
+  // Bonus summary
+  let bonusParts=[];
+  if(milestoneIncomeBonus>0) bonusParts.push('+'+(milestoneIncomeBonus*100).toFixed(0)+'% item income');
+  if(sellBonus>0) bonusParts.push('+'+(sellBonus*100).toFixed(0)+'% sell value');
+  if(startingBalance>1000) bonusParts.push('Start with $'+formatNum(startingBalance));
+  document.getElementById('msBonusInfo').innerText=bonusParts.length?'Active bonuses: '+bonusParts.join(' • '):'No bonuses yet — complete milestones!';
+
+  milestoneList.forEach(m=>{
+    let done=appliedMilestones.has(m.id);
+    let d=document.createElement('div');
+    d.className='ms-card '+(done?'done':'locked');
+    d.innerHTML='<div class="ms-icon">'+m.icon+'</div><div class="ms-body"><strong>'+m.desc+(done?' ✅':'')+'</strong><span class="ms-reward">Reward: '+m.rewardDesc+'</span></div>';
+    list.appendChild(d);
+  });
+}
+
+/* ══════════════════════════════════════
+   LUCK SHRINE
+══════════════════════════════════════ */
+function activateShrine(){
+  if(shrineActive){showToast('⚠️ Shrine already active!');return;}
+  if(balance<shrineCost){showToast('⚠️ Not enough money!');return;}
+  balance-=shrineCost;
+  stats.totalSpent+=shrineCost;
+  shrineCost=Math.floor(shrineCost*2);
+  luck+=50;
+  shrineActive=true;
+  shrineTimeLeft=30;
+  snd('shrine');
+  updateShrineUI();
+  updateUI();
+  showToast('🔮 Luck Shrine activated! +50 Luck for 30s!');
+}
+function updateShrineUI(){
+  let btn=document.getElementById('shrineBtn');
+  let cd=document.getElementById('shrineCountdown');
+  if(shrineActive){
+    btn.classList.add('active-shrine');
+    btn.disabled=true;
+    cd.innerText='⏱️ Shrine active: '+shrineTimeLeft+'s remaining';
+    document.getElementById('shrineCostDisplay').innerText=formatNum(shrineCost);
+  } else {
+    btn.classList.remove('active-shrine');
+    btn.disabled=false;
+    cd.innerText='';
+    document.getElementById('shrineCostDisplay').innerText=formatNum(shrineCost);
+  }
+}
+
+/* ══════════════════════════════════════
+   INVENTORY SLOTS
+══════════════════════════════════════ */
+function buySlots(){
+  if(balance<slotUpgradeCost){showToast('⚠️ Not enough money!');return;}
+  balance-=slotUpgradeCost;
+  stats.totalSpent+=slotUpgradeCost;
+  maxSlots+=5;
+  slotUpgradeCost=Math.floor(slotUpgradeCost*1.8);
+  snd('upgrade');
+  updateUI();checkMilestones();
+  showToast('📦 +5 slots! Max: '+maxSlots);
+}
+
+/* ══════════════════════════════════════
+   RARITY FILTER
+══════════════════════════════════════ */
+function setFilter(f){
+  inventoryFilter=f;
+  document.querySelectorAll('#filterBar button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('#filterBar .f'+f)?.classList.add('active');
+  renderInventory();
+}
+function renderInventory(){
+  let grid=document.getElementById('inventoryGrid');
+  grid.innerHTML='';
+  let filtered=inventoryFilter==='All'?inventory:inventory.filter(i=>i.rarity===inventoryFilter);
+  if(filtered.length===0&&inventory.length>0){
+    let d=document.createElement('div');
+    d.style.cssText='grid-column:1/-1;opacity:0.5;padding:20px;';
+    d.innerText='No '+inventoryFilter+' items in inventory.';
+    grid.appendChild(d);return;
+  }
+  filtered.forEach(i=>{
+    let realIdx=inventory.indexOf(i);
+    let d=document.createElement('div');
+    d.className='item '+i.rarity;
+    d.innerHTML=i.icon+'<br><b>'+i.name+'</b><div class="item-income">⚡ $'+getItemIncome(i)+'/sec</div><button onclick="sellItem('+realIdx+')">Sell</button>';
+    grid.appendChild(d);
+  });
+}
+
+/* ══════════════════════════════════════
+   DAILY CHALLENGES
+══════════════════════════════════════ */
+const challengePool=[
+  {id:'gen15',icon:'🎲',desc:'Generate 15 items',reward:1500,key:'generated',target:15},
+  {id:'gen40',icon:'🎲',desc:'Generate 40 items',reward:4000,key:'generated',target:40},
+  {id:'gen100',icon:'🎲',desc:'Generate 100 items',reward:10000,key:'generated',target:100},
+  {id:'buy5',icon:'🛍️',desc:'Buy 5 items',reward:2500,key:'bought',target:5},
+  {id:'buy15',icon:'🛍️',desc:'Buy 15 items',reward:7000,key:'bought',target:15},
+  {id:'sell5',icon:'💼',desc:'Sell 5 items',reward:2000,key:'sold',target:5},
+  {id:'sell10',icon:'💼',desc:'Sell 10 items',reward:5000,key:'sold',target:10},
+  {id:'rare',icon:'🔵',desc:'Pull a Rare or better',reward:2000,key:'rarityGte',target:'Rare'},
+  {id:'legendary',icon:'🟡',desc:'Pull a Legendary or better',reward:5000,key:'rarityGte',target:'Legendary'},
+  {id:'mythical',icon:'🔥',desc:'Pull a Mythical or better',reward:12000,key:'rarityGte',target:'Mythical'},
+  {id:'celestial',icon:'🌠',desc:'Pull a Celestial or better',reward:25000,key:'rarityGte',target:'Celestial'},
+  {id:'event1',icon:'🌩️',desc:'Survive 1 event',reward:3000,key:'events',target:1},
+  {id:'event3',icon:'🌩️',desc:'Survive 3 events',reward:9000,key:'events',target:3},
+  {id:'spend5k',icon:'💸',desc:'Spend $5,000',reward:3000,key:'spent',target:5000},
+  {id:'spend25k',icon:'💸',desc:'Spend $25,000',reward:10000,key:'spent',target:25000},
+  {id:'inv10',icon:'📦',desc:'Hold 10 items in inventory',reward:4000,key:'inventory',target:10},
+  {id:'crash',icon:'💹',desc:'Buy during a Market Crash',reward:6000,key:'crashBuy',target:1},
+  {id:'upgrade',icon:'⚡',desc:'Buy 3 upgrades',reward:5000,key:'upgrades',target:3},
+];
+let dailyDate='',dailyChallenges=[],dailyClaimed=[];
+let dailyP={generated:0,bought:0,sold:0,events:0,spent:0,crashBuy:0,upgrades:0,bestRarity:'Common'};
+function todayStr(){return new Date().toDateString();}
+function pickDailyChallenges(){
+  let seed=todayStr().split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  let pool=[...challengePool],chosen=[];
+  for(let i=0;i<3&&pool.length>0;i++){let s=(seed*(i+1)*1664525+1013904223)>>>0,idx=s%pool.length;chosen.push(pool[idx]);pool.splice(idx,1);}
+  return chosen;
+}
+function initDailyChallenges(){let today=todayStr();if(dailyDate!==today){dailyDate=today;dailyChallenges=pickDailyChallenges();dailyClaimed=[];dailyP={generated:0,bought:0,sold:0,events:0,spent:0,crashBuy:0,upgrades:0,bestRarity:'Common'};}}
+function getChallengeProgress(ch){switch(ch.key){case 'generated':return Math.min(dailyP.generated,ch.target);case 'bought':return Math.min(dailyP.bought,ch.target);case 'sold':return Math.min(dailyP.sold,ch.target);case 'events':return Math.min(dailyP.events,ch.target);case 'spent':return Math.min(dailyP.spent,ch.target);case 'crashBuy':return Math.min(dailyP.crashBuy,ch.target);case 'upgrades':return Math.min(dailyP.upgrades,ch.target);case 'inventory':return Math.min(inventory.length,ch.target);case 'rarityGte':return rarityRank[dailyP.bestRarity]>=rarityRank[ch.target]?1:0;default:return 0;}}
+function getChallengeDone(ch){return getChallengeProgress(ch)>=(ch.key==='rarityGte'?1:ch.target);}
+function claimChallenge(id){let ch=dailyChallenges.find(c=>c.id===id);if(!ch||dailyClaimed.includes(id)||!getChallengeDone(ch))return;dailyClaimed.push(id);balance+=ch.reward;snd('challenge');showToast('🎯 Challenge complete! +$'+formatNum(ch.reward));updateUI();renderDailyChallenges();checkAchievements();}
+function renderDailyChallenges(){
+  let list=document.getElementById('dailyList');if(!list)return;
+  let now=new Date(),midnight=new Date(now);midnight.setHours(24,0,0,0);let diff=Math.floor((midnight-now)/1000),h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60),s=diff%60;
+  document.getElementById('dailyReset').innerText='🔄 Resets in '+h+'h '+m+'m '+s+'s';
+  list.innerHTML='';
+  dailyChallenges.forEach(ch=>{
+    let claimed=dailyClaimed.includes(ch.id),done=getChallengeDone(ch),prog=getChallengeProgress(ch),target=ch.key==='rarityGte'?1:ch.target,pct=Math.min(100,(prog/target)*100);
+    let d=document.createElement('div');d.className='challenge-card'+(claimed?' claimed':done?' done':'');
+    d.innerHTML='<div class="ch-header"><span class="ch-icon">'+ch.icon+'</span><span class="ch-desc">'+ch.desc+'</span><span class="ch-reward">💰 $'+formatNum(ch.reward)+'</span></div><div class="ch-bar-bg"><div class="ch-bar" style="width:'+pct+'%"></div></div><div class="ch-progress">'+(claimed?'✅ Claimed':ch.key==='rarityGte'?(done?'✅ Done':'Not yet'):prog+' / '+target)+'</div>'+((!claimed&&done)?'<button class="ch-claim-btn" onclick="claimChallenge(\''+ch.id+'\')">Claim $'+formatNum(ch.reward)+'</button>':'');
+    list.appendChild(d);
+  });
+}
 
 /* ══════════════════════════════════════
    REBIRTH
 ══════════════════════════════════════ */
 function getRebirthRequirement(){return Math.floor(rebirthRequirement*Math.pow(1.8,rebirthCount));}
 function updateRebirthUI(){
-  let req=getRebirthRequirement(),ready=balance>=req;
-  let btn=document.getElementById('rebirthBtn');
-  btn.disabled=!ready; btn.classList.toggle('ready',ready);
-  let bonus=getRebirthBonus(),nextBonus=1+(rebirthCount+1)*0.25;
-  let info=document.getElementById('rebirthSidebarInfo');
-  if(rebirthCount>0){info.innerHTML='&#9851; Rebirths: <b style="color:#ffcc00">'+rebirthCount+'</b><br>Bonus: <b style="color:#ffcc00">x'+bonus.toFixed(2)+'</b><br>Next: x'+nextBonus.toFixed(2)+' @ $'+formatNum(req);}
-  else{info.innerHTML='Rebirth @ $'+formatNum(req)+'<br>Reward: <b style="color:#ffcc00">+25% income forever</b>';}
+  let req=getRebirthRequirement(),ready=balance>=req,btn=document.getElementById('rebirthBtn');
+  btn.disabled=!ready;btn.classList.toggle('ready',ready);
+  let bonus=getRebirthBonus(),next=1+(rebirthCount+1)*0.25,info=document.getElementById('rebirthSidebarInfo');
+  if(rebirthCount>0)info.innerHTML='&#9851; Rebirths: <b style="color:#ffcc00">'+rebirthCount+'</b><br>Bonus: <b style="color:#ffcc00">x'+bonus.toFixed(2)+'</b><br>Next: x'+next.toFixed(2)+' @ $'+formatNum(req);
+  else info.innerHTML='Rebirth @ $'+formatNum(req)+'<br>Reward: <b style="color:#ffcc00">+25% income forever</b>';
   let banner=document.getElementById('rebirthBanner');
   if(rebirthCount>0){banner.classList.add('show');document.getElementById('rebirthBannerText').innerText='Rebirth x'+rebirthCount+' — x'+bonus.toFixed(2)+' income bonus!';}
   else banner.classList.remove('show');
@@ -631,29 +552,21 @@ function updateRebirthUI(){
 function doRebirth(){
   let req=getRebirthRequirement();
   if(balance<req){showToast('⚠️ Not enough balance!');return;}
-  if(!confirm('⚠️ REBIRTH?\n\nResets balance, inventory & upgrades.\nKeeps collection, achievements & stats.\n\nReward: +25% permanent income bonus!')) return;
-  rebirthCount++; stats.totalRebirths++;
-  balance=1000;luck=0;incomeCost=200;luckCost=300;incomeMultiplier=1.0;incomeUpgradeCount=0;inventory=[];
-  activeEvent=null;eventTimeLeft=0;nextEventIn=90;
-  hideEventBanner();currentItem=null;
-  document.getElementById('icon').innerText='❓';
-  document.getElementById('name').innerText='Unknown';
-  document.getElementById('rarity').innerText='---';
-  document.getElementById('price').innerText='0';
-  document.getElementById('itemIncomePreview').innerText='';
-  snd('rebirth');
-  updateUI();showToast('🔁 Rebirth '+rebirthCount+'! x'+getRebirthBonus().toFixed(2)+' bonus!');
+  if(!confirm('⚠️ REBIRTH?\n\nResets balance, inventory & upgrades.\nKeeps collection, achievements, milestones & stats.\n\nReward: +25% permanent income bonus!'))return;
+  rebirthCount++;stats.totalRebirths++;
+  balance=startingBalance;luck=0;incomeCost=200;luckCost=300;incomeMultiplier=1.0;incomeUpgradeCount=0;
+  maxSlots=20;slotUpgradeCost=1000;shrineActive=false;shrineTimeLeft=0;shrineCost=5000;
+  inventory=[];activeEvent=null;eventTimeLeft=0;nextEventIn=90;hideEventBanner();currentItem=null;
+  document.getElementById('icon').innerText='❓';document.getElementById('name').innerText='Unknown';document.getElementById('rarity').innerText='---';document.getElementById('price').innerText='0';document.getElementById('itemIncomePreview').innerText='';
+  snd('rebirth');updateUI();showToast('🔁 Rebirth '+rebirthCount+'! x'+getRebirthBonus().toFixed(2)+' bonus!');
 }
 
 /* ══════════════════════════════════════
-   STATS PAGE
+   STATS
 ══════════════════════════════════════ */
 function renderStats(){
-  let list=document.getElementById('statsList');
-  if(!list) return;
-  [['⏱️ Playtime',formatTime(stats.playtime)],['🔁 Total Rebirths',rebirthCount],['🌟 Rebirth Bonus','x'+getRebirthBonus().toFixed(2)],['💰 Lifetime Earned','$'+formatNum(stats.lifetimeEarned)],['💸 Total Spent','$'+formatNum(stats.totalSpent)],['🛍️ Items Bought',stats.totalBought],['💼 Items Sold',stats.totalSoldCount],['🎲 Items Generated',stats.totalGenerated],['⚡ Income Boosts',stats.incomeUpgrades],['🍀 Luck Upgrades',stats.luckUpgrades],['🌩️ Events Survived',stats.eventsSurvived],['🏆 Best Rarity',stats.bestRarity],['📖 Discovered',discovered.length+' / '+items.length]].forEach(([l,v])=>{
-    let d=document.createElement('div');d.className='stat-row';d.innerHTML=l+'<span>'+v+'</span>';list.appendChild(d);
-  });
+  let list=document.getElementById('statsList');if(!list)return;list.innerHTML='';
+  [['⏱️ Playtime',formatTime(stats.playtime)],['🔁 Rebirths',rebirthCount],['🌟 Rebirth Bonus','x'+getRebirthBonus().toFixed(2)],['📦 Max Slots',maxSlots],['📈 MS Income Bonus','+'+(milestoneIncomeBonus*100).toFixed(0)+'%'],['💎 Sell Bonus','+'+(sellBonus*100).toFixed(0)+'%'],['💰 Lifetime Earned','$'+formatNum(stats.lifetimeEarned)],['💸 Total Spent','$'+formatNum(stats.totalSpent)],['🛍️ Items Bought',stats.totalBought],['💼 Items Sold',stats.totalSoldCount],['🎲 Items Generated',stats.totalGenerated],['⚡ Income Boosts',stats.incomeUpgrades],['🍀 Luck Upgrades',stats.luckUpgrades],['🌩️ Events Survived',stats.eventsSurvived],['🏆 Best Rarity',stats.bestRarity],['📖 Discovered',discovered.length+' / '+items.length]].forEach(([l,v])=>{let d=document.createElement('div');d.className='stat-row';d.innerHTML=l+'<span>'+v+'</span>';list.appendChild(d);});
 }
 
 /* ══════════════════════════════════════
@@ -666,136 +579,73 @@ const eventTypes=[
   {id:'power_surge',icon:'⚡',name:'Power Surge',desc:'Item income doubled!',color:'#ffdd00',duration:60},
   {id:'mystery_crate',icon:'🎁',name:'Mystery Crate',desc:'Exclusive item available!',color:'#cc66ff',duration:60}
 ];
-const mysteryItems=[
-  {name:'Void Crystal',icon:'🔷',rarity:'Legendary',price:3000},
-  {name:'Nebula Fragment',icon:'🌫️',rarity:'Mythical',price:7000},
-  {name:'Event Horizon Gem',icon:'🕳️',rarity:'Celestial',price:15000},
-  {name:'Stardust Relic',icon:'💫',rarity:'Mythical',price:8000},
-  {name:'Cosmic Anomaly',icon:'🌀',rarity:'Celestial',price:18000},
-];
+const mysteryItems=[{name:'Void Crystal',icon:'🔷',rarity:'Legendary',price:3000},{name:'Nebula Fragment',icon:'🌫️',rarity:'Mythical',price:7000},{name:'Event Horizon Gem',icon:'🕳️',rarity:'Celestial',price:15000},{name:'Stardust Relic',icon:'💫',rarity:'Mythical',price:8000},{name:'Cosmic Anomaly',icon:'🌀',rarity:'Celestial',price:18000}];
 let activeEvent=null,eventTimeLeft=0,eventDuration=0,nextEventIn=90;
 let mysteryCrateItem=null,mysteryCrateBought=false;
-function triggerEvent(){
-  let type=eventTypes[Math.floor(Math.random()*eventTypes.length)];
-  activeEvent=type;eventDuration=type.duration;eventTimeLeft=type.duration;
-  if(type.id==='mystery_crate'){mysteryCrateItem=mysteryItems[Math.floor(Math.random()*mysteryItems.length)];mysteryCrateBought=false;}
-  if(type.onStart)type.onStart();
-  showEventBanner();snd('event');showToast(type.icon+' '+type.name+' started!');
-}
-function endEvent(){
-  if(activeEvent?.onEnd)activeEvent.onEnd();
-  stats.eventsSurvived++;dailyP.events++;
-  activeEvent=null;eventTimeLeft=0;mysteryCrateItem=null;mysteryCrateBought=false;
-  hideEventBanner();nextEventIn=120+Math.floor(Math.random()*60);
-  checkDailyChallenges();
-}
-function showEventBanner(){
-  let b=document.getElementById('eventBanner');
-  b.classList.add('show');b.style.setProperty('--ec',activeEvent.color);b.style.borderColor=activeEvent.color;
-  document.getElementById('eventTitle').innerText=activeEvent.icon+' '+activeEvent.name;
-  document.getElementById('eventTitle').style.color=activeEvent.color;
-  document.getElementById('eventDesc').innerText=activeEvent.desc;
-  document.getElementById('eventTimerBar').style.background=activeEvent.color;
-  if(activeEvent.id==='mystery_crate'&&mysteryCrateItem){
-    document.getElementById('mysteryCrateArea').style.display='block';
-    document.getElementById('mysteryCrateInfo').innerHTML=mysteryCrateItem.icon+' <b>'+mysteryCrateItem.name+'</b> ('+mysteryCrateItem.rarity+') — $'+mysteryCrateItem.price+' | ⚡ $'+getItemIncome(mysteryCrateItem)+'/sec';
-    let btn=document.getElementById('mysteryCrateBtn');btn.disabled=false;btn.innerText='Buy $'+mysteryCrateItem.price;
-  }else{document.getElementById('mysteryCrateArea').style.display='none';}
-}
+function triggerEvent(){let type=eventTypes[Math.floor(Math.random()*eventTypes.length)];activeEvent=type;eventDuration=type.duration;eventTimeLeft=type.duration;if(type.id==='mystery_crate'){mysteryCrateItem=mysteryItems[Math.floor(Math.random()*mysteryItems.length)];mysteryCrateBought=false;}if(type.onStart)type.onStart();showEventBanner();snd('event');showToast(type.icon+' '+type.name+' started!');}
+function endEvent(){if(activeEvent?.onEnd)activeEvent.onEnd();stats.eventsSurvived++;dailyP.events++;activeEvent=null;eventTimeLeft=0;mysteryCrateItem=null;mysteryCrateBought=false;hideEventBanner();nextEventIn=120+Math.floor(Math.random()*60);checkMilestones();}
+function showEventBanner(){let b=document.getElementById('eventBanner');b.classList.add('show');b.style.setProperty('--ec',activeEvent.color);b.style.borderColor=activeEvent.color;document.getElementById('eventTitle').innerText=activeEvent.icon+' '+activeEvent.name;document.getElementById('eventTitle').style.color=activeEvent.color;document.getElementById('eventDesc').innerText=activeEvent.desc;document.getElementById('eventTimerBar').style.background=activeEvent.color;if(activeEvent.id==='mystery_crate'&&mysteryCrateItem){document.getElementById('mysteryCrateArea').style.display='block';document.getElementById('mysteryCrateInfo').innerHTML=mysteryCrateItem.icon+' <b>'+mysteryCrateItem.name+'</b> ('+mysteryCrateItem.rarity+') — $'+mysteryCrateItem.price+' | ⚡ $'+getItemIncome(mysteryCrateItem)+'/sec';let btn=document.getElementById('mysteryCrateBtn');btn.disabled=false;btn.innerText='Buy $'+mysteryCrateItem.price;}else{document.getElementById('mysteryCrateArea').style.display='none';}}
 function hideEventBanner(){document.getElementById('eventBanner').classList.remove('show');document.getElementById('mysteryCrateArea').style.display='none';}
 function updateEventBanner(){if(!activeEvent)return;document.getElementById('eventTimerBar').style.width=(eventTimeLeft/eventDuration*100)+'%';document.getElementById('eventCountdown').innerText='⏱️ '+eventTimeLeft+'s remaining';}
-function buyMysteryCrate(){
-  if(!mysteryCrateItem||mysteryCrateBought)return;
-  if(balance<mysteryCrateItem.price){showToast('⚠️ Not enough money!');return;}
-  balance-=mysteryCrateItem.price;stats.totalSpent+=mysteryCrateItem.price;stats.totalBought++;
-  if(mysteryCrateItem.rarity==='Celestial')stats.boughtCelestial=true;
-  trackBestRarity(mysteryCrateItem.rarity);
-  inventory.push(mysteryCrateItem);
-  if(!discovered.includes(mysteryCrateItem.name))discovered.push(mysteryCrateItem.name);
-  mysteryCrateBought=true;
-  document.getElementById('mysteryCrateBtn').disabled=true;document.getElementById('mysteryCrateBtn').innerText='✅ Purchased!';
-  snd('buy');updateUI();checkAchievements();checkDailyChallenges();showToast('🎁 '+mysteryCrateItem.name+' added!');
-}
+function buyMysteryCrate(){if(!mysteryCrateItem||mysteryCrateBought)return;if(balance<mysteryCrateItem.price){showToast('⚠️ Not enough money!');return;}if(inventory.length>=maxSlots){showToast('⚠️ Inventory full!');return;}balance-=mysteryCrateItem.price;stats.totalSpent+=mysteryCrateItem.price;stats.totalBought++;dailyP.bought++;if(activeEvent?.id==='market_crash')dailyP.crashBuy++;if(mysteryCrateItem.rarity==='Celestial')stats.boughtCelestial=true;trackBestRarity(mysteryCrateItem.rarity);inventory.push(mysteryCrateItem);if(!discovered.includes(mysteryCrateItem.name))discovered.push(mysteryCrateItem.name);mysteryCrateBought=true;document.getElementById('mysteryCrateBtn').disabled=true;document.getElementById('mysteryCrateBtn').innerText='✅ Purchased!';snd('buy');updateUI();checkAchievements();checkMilestones();showToast('🎁 '+mysteryCrateItem.name+' added!');}
 
 /* ══════════════════════════════════════
    ACHIEVEMENTS
 ══════════════════════════════════════ */
 const achievements=[
-  {id:'first_fortune',     icon:'💰',name:'First Fortune',        desc:'Reach $10,000 balance',         check:()=>balance>=10000},
-  {id:'cosmic_bill',       icon:'🌌',name:'Cosmic Billionaire',   desc:'Reach $1,000,000 balance',       check:()=>balance>=1000000},
-  {id:'high_roller',       icon:'🎰',name:'High Roller',          desc:'Spend $50,000 total',            check:()=>stats.totalSpent>=50000},
-  {id:'lucky_find',        icon:'🔵',name:'Lucky Find',           desc:'Pull a Rare or better',          check:()=>rarityRank[stats.bestRarity]>=2},
-  {id:'legendary_pull',    icon:'🟡',name:'Legendary Pull',       desc:'Pull a Legendary or better',     check:()=>rarityRank[stats.bestRarity]>=3},
-  {id:'touched_by_stars',  icon:'🔥',name:'Touched by the Stars', desc:'Pull a Mythical or better',      check:()=>rarityRank[stats.bestRarity]>=4},
-  {id:'celestial_chosen',  icon:'🌠',name:'Celestial Chosen',     desc:'Pull a Celestial or better',     check:()=>rarityRank[stats.bestRarity]>=5},
-  {id:'universal_one',     icon:'🕳️',name:'Universal Being',     desc:'Pull the Black Hole',            check:()=>rarityRank[stats.bestRarity]>=6},
-  {id:'completionist',     icon:'📖',name:'Completionist',        desc:'Discover all items',             check:()=>discovered.length>=items.length},
-  {id:'first_purchase',    icon:'🛍️',name:'First Purchase',      desc:'Buy your first item',            check:()=>stats.totalBought>=1},
-  {id:'hoarder',           icon:'📦',name:'Hoarder',              desc:'Hold 20 items at once',          check:()=>inventory.length>=20},
-  {id:'merchant',          icon:'💼',name:'Merchant',             desc:'Sell 10 items total',            check:()=>stats.totalSoldCount>=10},
-  {id:'big_spender',       icon:'👑',name:'Big Spender',          desc:'Buy a Celestial item',           check:()=>stats.boughtCelestial},
-  {id:'power_surge_ach',   icon:'⚡',name:'Power Surge',          desc:'Buy your first Income Boost',    check:()=>stats.incomeUpgrades>=1},
-  {id:'lucky_charm',       icon:'🍀',name:'Lucky Charm',          desc:'Buy your first Luck upgrade',    check:()=>stats.luckUpgrades>=1},
-  {id:'maximized',         icon:'📈',name:'Maximized',            desc:'Reach $500/sec from items',      check:()=>calcTotalIncome()>=500},
-  {id:'fortune_favors',    icon:'🎯',name:'Fortune Favors',       desc:'Reach Luck level 10',            check:()=>luck>=10},
-  {id:'getting_started',   icon:'🚀',name:'Getting Started',      desc:'Generate 10 items',              check:()=>stats.totalGenerated>=10},
-  {id:'obsessed',          icon:'🔄',name:'Obsessed',             desc:'Generate 100 items',             check:()=>stats.totalGenerated>=100},
-  {id:'dedicated_trader',  icon:'🏅',name:'Dedicated Trader',     desc:'Generate 500 items',             check:()=>stats.totalGenerated>=500},
-  {id:'born_again',        icon:'🔁',name:'Born Again',           desc:'Perform your first Rebirth',     check:()=>rebirthCount>=1},
-  {id:'veteran',           icon:'🌟',name:'Veteran',              desc:'Perform 5 Rebirths',             check:()=>rebirthCount>=5},
-  {id:'event_hunter',      icon:'🌩️',name:'Event Hunter',        desc:'Survive 10 events',              check:()=>stats.eventsSurvived>=10},
-  {id:'millionaire',       icon:'💎',name:'Lifetime Millionaire', desc:'Earn $1M lifetime',              check:()=>stats.lifetimeEarned>=1000000},
-  {id:'daily_done',        icon:'📅',name:'Daily Grinder',        desc:'Complete all 3 daily challenges', check:()=>dailyClaimed.length>=3},
+  {id:'first_fortune',icon:'💰',name:'First Fortune',desc:'Reach $10,000 balance',check:()=>balance>=10000},
+  {id:'cosmic_bill',icon:'🌌',name:'Cosmic Billionaire',desc:'Reach $1,000,000 balance',check:()=>balance>=1000000},
+  {id:'high_roller',icon:'🎰',name:'High Roller',desc:'Spend $50,000 total',check:()=>stats.totalSpent>=50000},
+  {id:'lucky_find',icon:'🔵',name:'Lucky Find',desc:'Pull a Rare or better',check:()=>rarityRank[stats.bestRarity]>=2},
+  {id:'legendary_pull',icon:'🟡',name:'Legendary Pull',desc:'Pull a Legendary or better',check:()=>rarityRank[stats.bestRarity]>=3},
+  {id:'touched_by_stars',icon:'🔥',name:'Touched by the Stars',desc:'Pull a Mythical or better',check:()=>rarityRank[stats.bestRarity]>=4},
+  {id:'celestial_chosen',icon:'🌠',name:'Celestial Chosen',desc:'Pull a Celestial or better',check:()=>rarityRank[stats.bestRarity]>=5},
+  {id:'universal_one',icon:'🕳️',name:'Universal Being',desc:'Pull the Black Hole',check:()=>rarityRank[stats.bestRarity]>=6},
+  {id:'completionist',icon:'📖',name:'Completionist',desc:'Discover all items',check:()=>discovered.length>=items.length},
+  {id:'first_purchase',icon:'🛍️',name:'First Purchase',desc:'Buy your first item',check:()=>stats.totalBought>=1},
+  {id:'hoarder',icon:'📦',name:'Hoarder',desc:'Hold 20 items at once',check:()=>inventory.length>=20},
+  {id:'merchant',icon:'💼',name:'Merchant',desc:'Sell 10 items total',check:()=>stats.totalSoldCount>=10},
+  {id:'big_spender',icon:'👑',name:'Big Spender',desc:'Buy a Celestial item',check:()=>stats.boughtCelestial},
+  {id:'power_surge_ach',icon:'⚡',name:'Power Surge',desc:'Buy first Income Boost',check:()=>stats.incomeUpgrades>=1},
+  {id:'lucky_charm',icon:'🍀',name:'Lucky Charm',desc:'Buy first Luck upgrade',check:()=>stats.luckUpgrades>=1},
+  {id:'maximized',icon:'📈',name:'Maximized',desc:'Reach $500/sec from items',check:()=>calcTotalIncome()>=500},
+  {id:'fortune_favors',icon:'🎯',name:'Fortune Favors',desc:'Reach Luck level 10',check:()=>luck>=10},
+  {id:'getting_started',icon:'🚀',name:'Getting Started',desc:'Generate 10 items',check:()=>stats.totalGenerated>=10},
+  {id:'obsessed',icon:'🔄',name:'Obsessed',desc:'Generate 100 items',check:()=>stats.totalGenerated>=100},
+  {id:'dedicated_trader',icon:'🏅',name:'Dedicated Trader',desc:'Generate 500 items',check:()=>stats.totalGenerated>=500},
+  {id:'born_again',icon:'🔁',name:'Born Again',desc:'Perform first Rebirth',check:()=>rebirthCount>=1},
+  {id:'veteran',icon:'🌟',name:'Veteran',desc:'Perform 5 Rebirths',check:()=>rebirthCount>=5},
+  {id:'event_hunter',icon:'🌩️',name:'Event Hunter',desc:'Survive 10 events',check:()=>stats.eventsSurvived>=10},
+  {id:'millionaire',icon:'💎',name:'Lifetime Millionaire',desc:'Earn $1M lifetime',check:()=>stats.lifetimeEarned>=1000000},
+  {id:'daily_done',icon:'📅',name:'Daily Grinder',desc:'Complete all 3 daily challenges',check:()=>dailyClaimed.length>=3},
+  {id:'shrine_user',icon:'🔮',name:'Shrine Seeker',desc:'Activate the Luck Shrine',check:()=>shrineCost>5000},
+  {id:'ms_collector',icon:'🏅',name:'Milestone Hunter',desc:'Unlock 8 milestones',check:()=>appliedMilestones.size>=8},
+  {id:'full_house',icon:'📦',name:'Full House',desc:'Fill your entire inventory',check:()=>inventory.length>=maxSlots&&maxSlots>0},
 ];
 let unlockedAchs=new Set();
 function checkAchievements(){achievements.forEach(a=>{if(!unlockedAchs.has(a.id)&&a.check()){unlockedAchs.add(a.id);showAchToast(a.name,a.icon);}});renderAchievements();}
-function renderAchievements(){
-  let list=document.getElementById('achList');if(!list)return;list.innerHTML='';
-  achievements.forEach(a=>{let u=unlockedAchs.has(a.id);let d=document.createElement('div');d.className='ach-card '+(u?'unlocked':'locked');d.innerHTML='<div class="ach-icon">'+a.icon+'</div><div class="ach-info"><strong>'+a.name+(u?' ✅':'')+'</strong>'+a.desc+'</div>';list.appendChild(d);});
-  let c=unlockedAchs.size,t=achievements.length;
-  document.getElementById('achBar').style.width=(c/t*100)+'%';
-  document.getElementById('achText').innerText=c+' / '+t+' unlocked';
-}
-
-function checkDailyChallenges(){
-  // Update daily best rarity
-  if(rarityRank[stats.bestRarity]>rarityRank[dailyP.bestRarity]) dailyP.bestRarity=stats.bestRarity;
-}
+function renderAchievements(){let list=document.getElementById('achList');if(!list)return;list.innerHTML='';achievements.forEach(a=>{let u=unlockedAchs.has(a.id);let d=document.createElement('div');d.className='ach-card '+(u?'unlocked':'locked');d.innerHTML='<div class="ach-icon">'+a.icon+'</div><div class="ach-info"><strong>'+a.name+(u?' ✅':'')+'</strong>'+a.desc+'</div>';list.appendChild(d);});let c=unlockedAchs.size,t=achievements.length;document.getElementById('achBar').style.width=(c/t*100)+'%';document.getElementById('achText').innerText=c+' / '+t+' unlocked';}
 
 /* ══════════════════════════════════════
    SAVE / LOAD / RESET
 ══════════════════════════════════════ */
-function saveGame(){
-  localStorage.setItem('cosmicMarketSave',JSON.stringify({balance,luck,incomeCost,luckCost,incomeMultiplier,incomeUpgradeCount,inventory,discovered,stats,unlockedAchs:[...unlockedAchs],rebirthCount,rebirthRequirement,dailyDate,dailyChallenges,dailyClaimed,dailyP}));
-  showToast('✅ Game Saved!');
-}
+function getSaveData(){return{balance,luck,incomeCost,luckCost,incomeMultiplier,incomeUpgradeCount,inventory,discovered,stats,unlockedAchs:[...unlockedAchs],rebirthCount,rebirthRequirement,maxSlots,slotUpgradeCost,shrineCost,milestoneIncomeBonus,sellBonus,startingBalance,appliedMilestones:[...appliedMilestones],dailyDate,dailyChallenges,dailyClaimed,dailyP};}
+function saveGame(){localStorage.setItem('cosmicMarketSave',JSON.stringify(getSaveData()));showToast('✅ Game Saved!');}
 function loadGame(){
-  let raw=localStorage.getItem('cosmicMarketSave');
-  if(!raw){showToast('⚠️ No save found!');initDailyChallenges();return;}
+  let raw=localStorage.getItem('cosmicMarketSave');if(!raw){showToast('⚠️ No save found!');initDailyChallenges();return;}
   let d=JSON.parse(raw);
-  balance=d.balance??1000;luck=d.luck??0;incomeCost=d.incomeCost??200;luckCost=d.luckCost??300;
-  incomeMultiplier=d.incomeMultiplier??1.0;incomeUpgradeCount=d.incomeUpgradeCount??0;
-  inventory=d.inventory??[];discovered=d.discovered??[];
-  rebirthCount=d.rebirthCount??0;rebirthRequirement=d.rebirthRequirement??500000;
+  balance=d.balance??1000;luck=d.luck??0;incomeCost=d.incomeCost??200;luckCost=d.luckCost??300;incomeMultiplier=d.incomeMultiplier??1.0;incomeUpgradeCount=d.incomeUpgradeCount??0;inventory=d.inventory??[];discovered=d.discovered??[];rebirthCount=d.rebirthCount??0;rebirthRequirement=d.rebirthRequirement??500000;maxSlots=d.maxSlots??20;slotUpgradeCost=d.slotUpgradeCost??1000;shrineCost=d.shrineCost??5000;milestoneIncomeBonus=d.milestoneIncomeBonus??0;sellBonus=d.sellBonus??0;startingBalance=d.startingBalance??1000;
+  appliedMilestones=new Set(d.appliedMilestones??[]);
   stats=Object.assign({totalSpent:0,totalSoldCount:0,totalGenerated:0,totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0,lifetimeEarned:0,eventsSurvived:0,playtime:0,bestRarity:'Common',totalRebirths:0},d.stats||{});
   unlockedAchs=new Set(d.unlockedAchs??[]);
-  // Load daily data
-  dailyDate=d.dailyDate??'';
-  dailyChallenges=d.dailyChallenges??[];
-  dailyClaimed=d.dailyClaimed??[];
+  dailyDate=d.dailyDate??'';dailyChallenges=d.dailyChallenges??[];dailyClaimed=d.dailyClaimed??[];
   dailyP=Object.assign({generated:0,bought:0,sold:0,events:0,spent:0,crashBuy:0,upgrades:0,bestRarity:'Common'},d.dailyP||{});
-  initDailyChallenges(); // resets if new day
-  updateUI();showToast('📂 Game Loaded!');
+  initDailyChallenges();updateUI();showToast('📂 Game Loaded!');
 }
 function resetGame(){
   if(!confirm('Reset ALL progress? This cannot be undone!'))return;
   localStorage.removeItem('cosmicMarketSave');
-  balance=1000;luck=0;incomeCost=200;luckCost=300;incomeMultiplier=1.0;incomeUpgradeCount=0;
-  rebirthCount=0;rebirthRequirement=500000;inventory=[];discovered=[];
-  stats={totalSpent:0,totalSoldCount:0,totalGenerated:0,totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0,lifetimeEarned:0,eventsSurvived:0,playtime:0,bestRarity:'Common',totalRebirths:0};
-  unlockedAchs=new Set();activeEvent=null;eventTimeLeft=0;nextEventIn=90;
-  hideEventBanner();currentItem=null;
-  dailyDate='';initDailyChallenges();
+  balance=1000;luck=0;incomeCost=200;luckCost=300;incomeMultiplier=1.0;incomeUpgradeCount=0;rebirthCount=0;rebirthRequirement=500000;maxSlots=20;slotUpgradeCost=1000;shrineCost=5000;shrineActive=false;shrineTimeLeft=0;milestoneIncomeBonus=0;sellBonus=0;startingBalance=1000;appliedMilestones=new Set();inventory=[];discovered=[];stats={totalSpent:0,totalSoldCount:0,totalGenerated:0,totalBought:0,boughtCelestial:false,incomeUpgrades:0,luckUpgrades:0,lifetimeEarned:0,eventsSurvived:0,playtime:0,bestRarity:'Common',totalRebirths:0};unlockedAchs=new Set();activeEvent=null;eventTimeLeft=0;nextEventIn=90;hideEventBanner();currentItem=null;dailyDate='';initDailyChallenges();
   document.getElementById('icon').innerText='❓';document.getElementById('name').innerText='Unknown';document.getElementById('rarity').innerText='---';document.getElementById('price').innerText='0';document.getElementById('itemIncomePreview').innerText='';
   updateUI();showToast('🧹 Game Reset!');
 }
@@ -806,93 +656,49 @@ function resetGame(){
 function trackBestRarity(r){if(rarityRank[r]>rarityRank[stats.bestRarity])stats.bestRarity=r;if(rarityRank[r]>rarityRank[dailyP.bestRarity])dailyP.bestRarity=r;}
 function getRarity(){
   if(activeEvent?.id==='rare_surge'){let r=Math.random()*100-Math.min(luck,30);if(r<0.1)return 'Universal';if(r<2)return 'Celestial';if(r<8)return 'Mythical';if(r<20)return 'Legendary';return 'Rare';}
-  let r=Math.random()*100-Math.min(luck,30);
-  if(r<0.1)return 'Universal';if(r<1)return 'Celestial';if(r<5)return 'Mythical';if(r<12)return 'Legendary';if(r<25)return 'Rare';if(r<50)return 'Uncommon';return 'Common';
+  let r=Math.random()*100-Math.min(luck,30);if(r<0.1)return 'Universal';if(r<1)return 'Celestial';if(r<5)return 'Mythical';if(r<12)return 'Legendary';if(r<25)return 'Rare';if(r<50)return 'Uncommon';return 'Common';
 }
-
 let currentItem,canGen=true;
-
 function generate(auto=false){
-  if(!canGen)return;
-  canGen=false;document.getElementById('genBtn').disabled=true;
-  setTimeout(()=>{canGen=true;document.getElementById('genBtn').disabled=false;},1000);
+  if(!canGen)return;canGen=false;document.getElementById('genBtn').disabled=true;setTimeout(()=>{canGen=true;document.getElementById('genBtn').disabled=false;},1000);
   if(!auto)snd('generate');
-  let rarity=getRarity();
-  let pool=items.filter(i=>i.rarity===rarity);
+  let rarity=getRarity(),pool=items.filter(i=>i.rarity===rarity);
   currentItem=pool.length?pool[Math.floor(Math.random()*pool.length)]:items[Math.floor(Math.random()*items.length)];
   trackBestRarity(currentItem.rarity);
-  let displayPrice=activeEvent?.id==='market_crash'?Math.floor(currentItem.price*0.5):currentItem.price;
-  document.getElementById('icon').innerText=currentItem.icon;
-  document.getElementById('name').innerText=currentItem.name;
-  document.getElementById('rarity').innerText=currentItem.rarity+(activeEvent?.id==='market_crash'?' 💸50% OFF':'');
-  document.getElementById('rarity').className=currentItem.rarity;
-  document.getElementById('price').innerText=displayPrice;
-  document.getElementById('itemIncomePreview').innerText='⚡ +$'+getItemIncome(currentItem)+'/sec if purchased';
-  stats.totalGenerated++;dailyP.generated++;
-  sndDrop(currentItem.rarity);
-  rareEffect(currentItem.rarity);
-  checkAchievements();checkDailyChallenges();
+  let dp=activeEvent?.id==='market_crash'?Math.floor(currentItem.price*0.5):currentItem.price;
+  document.getElementById('icon').innerText=currentItem.icon;document.getElementById('name').innerText=currentItem.name;document.getElementById('rarity').innerText=currentItem.rarity+(activeEvent?.id==='market_crash'?' 💸50% OFF':'');document.getElementById('rarity').className=currentItem.rarity;document.getElementById('price').innerText=dp;document.getElementById('itemIncomePreview').innerText='⚡ +$'+getItemIncome(currentItem)+'/sec if purchased';
+  stats.totalGenerated++;dailyP.generated++;sndDrop(currentItem.rarity);rareEffect(currentItem.rarity);checkAchievements();checkMilestones();
 }
-
-function rareEffect(r){
-  if(r==='Mythical'||r==='Celestial'||r==='Universal'){
-    let t=document.getElementById('dropText'),card=document.getElementById('itemCard');
-    if(r==='Universal'){t.innerText='✨ UNIVERSAL ✨';t.style.color='#ffffff';card.classList.add('glow-universal');}
-    else if(r==='Celestial'){t.innerText='🌌 CELESTIAL!!!';t.style.color='#bb66ff';card.classList.add('glow-celestial');}
-    else{t.innerText='🔥 MYTHICAL!';t.style.color='yellow';card.classList.add('glow-mythical');}
-    t.classList.add('showText');
-    setTimeout(()=>{t.classList.remove('showText');card.classList.remove('glow-mythical','glow-celestial','glow-universal');},r==='Universal'?2500:1200);
-  }
-}
-
+function rareEffect(r){if(r==='Mythical'||r==='Celestial'||r==='Universal'){let t=document.getElementById('dropText'),card=document.getElementById('itemCard');if(r==='Universal'){t.innerText='✨ UNIVERSAL ✨';t.style.color='#fff';card.classList.add('glow-universal');}else if(r==='Celestial'){t.innerText='🌌 CELESTIAL!!!';t.style.color='#bb66ff';card.classList.add('glow-celestial');}else{t.innerText='🔥 MYTHICAL!';t.style.color='yellow';card.classList.add('glow-mythical');}t.classList.add('showText');setTimeout(()=>{t.classList.remove('showText');card.classList.remove('glow-mythical','glow-celestial','glow-universal');},r==='Universal'?2500:1200);}}
 function buy(){
   if(!currentItem)return;
+  if(inventory.length>=maxSlots){showToast('⚠️ Inventory full! Buy more slots in Shop.');return;}
   let price=activeEvent?.id==='market_crash'?Math.floor(currentItem.price*0.5):currentItem.price;
-  if(balance>=price){
-    balance-=price;stats.totalSpent+=price;stats.totalBought++;dailyP.bought++;dailyP.spent+=price;
-    if(activeEvent?.id==='market_crash')dailyP.crashBuy++;
-    if(currentItem.rarity==='Celestial')stats.boughtCelestial=true;
-    inventory.push(currentItem);
-    if(!discovered.includes(currentItem.name))discovered.push(currentItem.name);
-    snd('buy');updateUI();checkAchievements();checkDailyChallenges();
-    setTimeout(()=>generate(true),300);
-  }
+  if(balance>=price){balance-=price;stats.totalSpent+=price;stats.totalBought++;dailyP.bought++;dailyP.spent+=price;if(activeEvent?.id==='market_crash')dailyP.crashBuy++;if(currentItem.rarity==='Celestial')stats.boughtCelestial=true;inventory.push(currentItem);if(!discovered.includes(currentItem.name))discovered.push(currentItem.name);snd('buy');updateUI();checkAchievements();checkMilestones();setTimeout(()=>generate(true),300);}
 }
-
 function sellItem(index){
   let item=inventory[index];if(!item)return;
-  balance+=Math.floor(item.price*0.5);stats.totalSoldCount++;dailyP.sold++;
-  inventory.splice(index,1);snd('sell');updateUI();checkAchievements();checkDailyChallenges();
+  let sellVal=Math.floor(item.price*(0.5+sellBonus));balance+=sellVal;stats.totalSoldCount++;dailyP.sold++;
+  inventory.splice(index,1);snd('sell');updateUI();checkAchievements();checkMilestones();
 }
-
-function buyIncome(){
-  if(balance>=incomeCost){
-    balance-=incomeCost;stats.totalSpent+=incomeCost;dailyP.spent+=incomeCost;dailyP.upgrades++;
-    incomeMultiplier=Math.round((incomeMultiplier+0.10)*100)/100;incomeUpgradeCount++;stats.incomeUpgrades++;
-    incomeCost=Math.floor(incomeCost*1.5);
-    snd('upgrade');updateUI();checkAchievements();checkDailyChallenges();
-  }
-}
-
-function buyLuck(){
-  if(balance>=luckCost){
-    balance-=luckCost;stats.totalSpent+=luckCost;dailyP.spent+=luckCost;dailyP.upgrades++;
-    luck++;stats.luckUpgrades++;luckCost=Math.floor(luckCost*1.6);
-    snd('upgrade');updateUI();checkAchievements();checkDailyChallenges();
-  }
-}
+function buyIncome(){if(balance>=incomeCost){balance-=incomeCost;stats.totalSpent+=incomeCost;dailyP.spent+=incomeCost;dailyP.upgrades++;incomeMultiplier=Math.round((incomeMultiplier+0.10)*100)/100;incomeUpgradeCount++;stats.incomeUpgrades++;incomeCost=Math.floor(incomeCost*1.5);snd('upgrade');updateUI();checkAchievements();checkMilestones();}}
+function buyLuck(){if(balance>=luckCost){balance-=luckCost;stats.totalSpent+=luckCost;dailyP.spent+=luckCost;dailyP.upgrades++;luck++;stats.luckUpgrades++;luckCost=Math.floor(luckCost*1.6);snd('upgrade');updateUI();checkAchievements();checkMilestones();}}
 
 /* ══════════════════════════════════════
    MAIN TICK
 ══════════════════════════════════════ */
 setInterval(()=>{
   let earned=calcTotalIncome();balance+=earned;stats.lifetimeEarned+=earned;stats.playtime++;
-  if(activeEvent){eventTimeLeft--;if(eventTimeLeft<=0)endEvent();else updateEventBanner();}
-  else{nextEventIn--;if(nextEventIn<=0)triggerEvent();}
-  updateUI();checkAchievements();checkDailyChallenges();
+  // Shrine tick
+  if(shrineActive){shrineTimeLeft--;if(shrineTimeLeft<=0){shrineActive=false;luck=Math.max(0,luck-50);updateShrineUI();}else updateShrineUI();}
+  // Event tick
+  if(activeEvent){eventTimeLeft--;if(eventTimeLeft<=0)endEvent();else updateEventBanner();}else{nextEventIn--;if(nextEventIn<=0)triggerEvent();}
+  updateUI();checkAchievements();checkMilestones();
 },1000);
 
-// Update daily challenge timer every second if menu is open
+// Auto-save every 30 seconds
+setInterval(()=>{localStorage.setItem('cosmicMarketSave',JSON.stringify(getSaveData()));showToast('💾 Auto-saved',1500);},30000);
+// Daily challenge timer
 setInterval(()=>{if(document.getElementById('dailyMenu').classList.contains('active'))renderDailyChallenges();},1000);
 
 /* ══════════════════════════════════════
@@ -901,27 +707,28 @@ setInterval(()=>{if(document.getElementById('dailyMenu').classList.contains('act
 function updateUI(){
   document.getElementById('balance').innerText=formatNum(balance);
   document.getElementById('incomeDisplay').innerText=formatNum(calcTotalIncome());
-  document.getElementById('luck').innerText=luck;
+  document.getElementById('luck').innerText=luck+(shrineActive?' 🔮':'');
   document.getElementById('incomeCost').innerText=formatNum(incomeCost);
   document.getElementById('luckCost').innerText=formatNum(luckCost);
+  document.getElementById('slotCost').innerText=formatNum(slotUpgradeCost);
+  document.getElementById('maxSlotsDisplay').innerText=maxSlots;
+  document.getElementById('shrineCostDisplay').innerText=formatNum(shrineCost);
+  document.getElementById('slotInfo').innerText=inventory.length+' / '+maxSlots+' slots';
   let parts=[];
   if(incomeUpgradeCount>0)parts.push('x'+incomeMultiplier.toFixed(1)+' boost');
   if(rebirthCount>0)parts.push('x'+getRebirthBonus().toFixed(2)+' rebirth');
+  if(milestoneIncomeBonus>0)parts.push('+'+(milestoneIncomeBonus*100).toFixed(0)+'% milestone');
   document.getElementById('multiplierDisplay').innerText=parts.length?'('+parts.join('  •  ')+')'  :'';
-  // Inventory
-  let grid=document.getElementById('inventoryGrid');grid.innerHTML='';
-  inventory.forEach((i,idx)=>{let d=document.createElement('div');d.className='item '+i.rarity;d.innerHTML=i.icon+'<br><b>'+i.name+'</b><div class="item-income">⚡ $'+getItemIncome(i)+'/sec</div><button onclick="sellItem('+idx+')">Sell</button>';grid.appendChild(d);});
+  renderInventory();
   // Collection
   let list=document.getElementById('collectionList');list.innerHTML='';
   items.forEach(i=>{let d=document.createElement('div');d.innerText=i.icon+' '+i.name+' ('+i.rarity+')';d.style.opacity=discovered.includes(i.name)?1:0.3;list.appendChild(d);});
-  let pct=(discovered.length/items.length)*100;
-  document.getElementById('collectionBar').style.width=pct+'%';
-  document.getElementById('collectionText').innerText=discovered.length+' / '+items.length+' discovered';
+  let pct=(discovered.length/items.length)*100;document.getElementById('collectionBar').style.width=pct+'%';document.getElementById('collectionText').innerText=discovered.length+' / '+items.length+' discovered';
   renderAchievements();updateRebirthUI();
 }
 
 /* ══════════════════════════════════════
-   STAR BACKGROUND
+   STARS
 ══════════════════════════════════════ */
 const canvas=document.getElementById('stars'),ctx=canvas.getContext('2d');
 function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
@@ -930,13 +737,9 @@ let stars=[];for(let i=0;i<130;i++)stars.push({x:Math.random()*canvas.width,y:Ma
 function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{ctx.globalAlpha=s.alpha*(0.7+0.3*Math.random());ctx.fillStyle='#00ffd5';ctx.fillRect(s.x,s.y,s.size,s.size);s.y+=s.speed;if(s.y>canvas.height){s.y=0;s.x=Math.random()*canvas.width;}});ctx.globalAlpha=1;requestAnimationFrame(animate);}
 animate();
 
-// Start music + load on first user interaction
 let started=false;
 document.addEventListener('click',()=>{if(!started){started=true;loadSoundPrefs();if(musicEnabled)startMusic();}},{once:true});
-
-loadSoundPrefs();
-loadGame();
-updateUI();
+loadSoundPrefs();loadGame();updateUI();
 </script>
 </body>
 </html>
